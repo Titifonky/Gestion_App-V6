@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!---
+Attributs possibles :
+  intitule
+  unite
+  defaut
+  entete
+  info
+-->
+
+<Base version="1">
+  <Objets>
+    <Objet name="Client">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Intitule" intitule="Client"/>
+      <Propriete name="Societe" intitule="Société"/>
+      <Propriete name="Adresse"/>
+      <Propriete name="Cp"/>
+      <Propriete name="Ville"/>
+      <Propriete name="Favori" defaut="false"/>
+    </Objet>
+    <Objet name="Achat">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Fournisseur"/>
+      <Propriete name="Devis"/>
+      <Propriete name="Description"/>
+      <Propriete name="Statut"/>
+      <Propriete name="No_Achat" intitule="Ref"/>
+      <Propriete name="Prix" intitule="Ht" unite="€" defaut="0"/>
+    </Objet>
+    <Objet name="Ligne_Facture" intitule="Ligne de facturation">
+      <Propriete name="Id"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Facture" intitule="Facture"/>
+      <Propriete name="Poste" intitule="Poste"/>
+      <Propriete name="Statut" intitule="Facturer le poste" defaut="true"/>
+      <Propriete name="Imprimer_Description" intitule="Imprimer la description du poste" defaut="true"/>
+      <Propriete name="Description" intitule="Description alternative"/>
+      <Propriete name="Ht_Unitaire" intitule="Ht Unitaire" unite="€" defaut="0"/>
+      <Propriete name="Qte" defaut="1"/>
+      <Propriete name="CalculLigne_Facture" intitule="Méthode de calcul" info="Méthode de calcul" defaut="1"/>
+      <Propriete name="Ht" intitule="Ht" unite="€" defaut="0"/>
+    </Objet>
+    <Objet name="Devis">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Indice"/>
+      <Propriete name="Client"/>
+      <Propriete name="Date"/>
+      <Propriete name="Description" intitule="Titre"/>
+      <Propriete name="Commentaires"/>
+      <Propriete name="Prix_Ht" intitule="Total Ht" unite="€" defaut="0"/>
+      <Propriete name="Tva" unite="€" defaut="0"/>
+      <Propriete name="Tva_Pct" intitule="Tva" unite="%" defaut="20"/>
+      <Propriete name="Prix_Ttc" intitule="Prix Ttc" unite="€" defaut="0"/>
+      <Propriete name="Marge" unite="€" defaut="0"/>
+      <Propriete name="Acompte" unite="€" defaut="0"/>
+      <Propriete name="Deja_Facture_Ht" intitule="Déjà facturé Ht" unite="€" defaut="0"/>
+      <Propriete name="Reste_A_Facture_Ht" intitule="Reste à facturer Ht" unite="€" defaut="0"/>
+      <Propriete name="Info" info="Apparait dans le devis"/>
+      <Propriete name="Adresse_Client" intitule="Adresse de facturation"/>
+      <Propriete name="Statut" defaut="1"/>
+      <Propriete name="Acompte_Pct" intitule="Acompte" unite="%" defaut="0"/>
+      <Propriete name="Prix_Tt_Achat" intitule="TT Achat" unite="€" defaut="0"/>
+      <Propriete name="Prix_Tt_Heure" intitule="TT Heure" unite="€" defaut="0"/>
+      <Propriete name="Nb_Heure" intitule="Nb heure" defaut="0"/>
+      <Propriete name="Marge_Pct" intitule="Marge" unite="%" defaut="0"/>
+      <Propriete name="Favori" defaut="false"/>
+      <Propriete name="Conditions" defaut="Acompte de 30 % à la commande
+50% à la pose
+Solde à la réception de l'ouvrage
+Devis valable deux mois"/>
+    </Objet>
+    <Objet name="Facture">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Indice"/>
+      <Propriete name="Devis" intitule="Devis"/>
+      <Propriete name="defaut" unite="1"/>
+      <Propriete name="Conditions" defaut="Paiement à 45 jours date de facturation"/>
+      <Propriete name="Date"/>
+      <Propriete name="Imprimer_Commentaires" intitule="Commentaires" info="Imprimer les commentaires"  defaut="false"/>
+      <Propriete name="Commentaires"/>
+      <Propriete name="Prix_Ht" intitule="Total Ht" unite="€" defaut="0"/>
+      <Propriete name="Tva" intitule="Tva" unite="€" defaut="0"/>
+      <Propriete name="Prix_Ttc" intitule="Total Ttc" unite="€" defaut="0"/>
+      <Propriete name="Compta" info="Envoyé à la compta" defaut="false"/>
+      <Propriete name="Favori" defaut="false"/>
+    </Objet>
+    <Objet name="Fournisseur">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Intitule"/>
+      <Propriete name="Societe" intitule="Société"/>
+      <Propriete name="Adresse"/>
+      <Propriete name="Cp"/>
+      <Propriete name="Ville"/>
+    </Objet>
+    <Objet name="Heure">
+      <Propriete name="Id"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Devis" intitule="Devis"/>
+      <Propriete name="Description"/>
+      <Propriete name="Prix" unite="€" defaut="0"/>
+      <Propriete name="Qte" defaut="1"/>
+      <Propriete name="Vendu" intitule="Ht" unite="€" defaut="0"/>
+    </Objet>
+    <Objet name="Ligne_Poste" intitule="Ligne du poste">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Poste" intitule="Poste"/>
+      <Propriete name="Statut" defaut="true"/>
+      <Propriete name="Famille"/>
+      <Propriete name="Description"/>
+      <Propriete name="Prix_Exp" intitule="Prix" defaut="0"/>
+      <Propriete name="Prix" unite="€" defaut="0"/>
+      <Propriete name="Qte_Exp" intitule="Qte" defaut="1"/>
+      <Propriete name="Qte" defaut="1"/>
+      <Propriete name="Unite" intitule="U"/>
+      <Propriete name="Coef" defaut="1"/>
+      <Propriete name="Debours" unite="€" defaut="0"/>
+      <Propriete name="Debours_Unitaire" intitule="Debours U" unite="€" defaut="0"/>
+      <Propriete name="Prix_Ht" intitule="Ht U" unite="€" defaut="0"/>
+      <Propriete name="Marge" intitule="Marge U" unite="€" defaut="0"/>
+      <Propriete name="Prix_Forfaitaire" intitule="Forfait" unite="€" defaut="false"/>
+    </Objet>
+    <Objet name="Famille">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Societe" intitule="Société"/>
+      <Propriete name="Code" defaut="1"/>
+      <Propriete name="Intitule" intitule="Intitulé"/>
+      <Propriete name="Description"/>
+      <Propriete name="Prix_Exp" intitule="Prix" defaut="0"/>
+      <Propriete name="Prix" unite="€" defaut="0"/>
+      <Propriete name="Qte_Exp" intitule="Qte" defaut="1"/>
+      <Propriete name="Qte" defaut="1"/>
+      <Propriete name="Unite" intitule="U" info="unité"/>
+      <Propriete name="Coef" defaut="1"/>
+      <Propriete name="Prix_Forfaitaire" defaut="false" entete="Forfait"/>
+      <Propriete name="Supprimable" defaut="true"/>
+    </Objet>
+    <Objet name="Poste">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Devis" intitule="Devis"/>
+      <Propriete name="Titre" intitule="Titre"/>
+      <Propriete name="Statut" defaut="true"/>
+      <Propriete name="Description"/>
+      <Propriete name="Prix_Ht" intitule="Ht" unite="€" defaut="0"/>
+      <Propriete name="Marge" unite="€" defaut="0"/>
+      <Propriete name="Deja_Facture_Ht" intitule="Déjà facturé" unite="€" defaut="0"/>
+      <Propriete name="Reste_A_Facture_Ht" intitule="Restant à facturer" unite="€" defaut="0"/>
+      <Propriete name="Marge_Pct" intitule="Marge" unite="%" defaut="0"/>
+      <Propriete name="Qte" defaut="1"/>
+      <Propriete name="Unite" intitule="Unité" defaut="u"/>
+      <Propriete name="Prix_Unitaire" intitule="Prix unitaire" unite="€" defaut="0"/>
+      <Propriete name="Marge_Unitaire" intitule="Marge unitaire" unite="€" defaut="0"/>
+      <Propriete name="Arrondi" defaut="10"/>
+    </Objet>
+    <Objet name="Societe">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Statut"/>
+      <Propriete name="Denomination"/>
+      <Propriete name="Tel_Mobile"/>
+      <Propriete name="Tel_Fixe"/>
+      <Propriete name="Email"/>
+      <Propriete name="Adresse"/>
+      <Propriete name="Cp"/>
+      <Propriete name="Ville"/>
+      <Propriete name="Pied"/>
+      <Propriete name="UtilisateurCourant" intitule="Utilisateur courant"/>
+    </Objet>
+    <Objet name="Utilisateur">
+      <Propriete name="Intitule" intitule="Intitulé"/>
+      <Propriete name="Prefix_Utilisateur" intitule="Prefixe de référence"/>
+      <Propriete name="Dossier_GED" intitule="Dossier GED"/>
+      <Propriete name="EcraserIndicePDF" intitule="Ecraser les fichiers PDF" info="Ecraser les fichiers PDF des Devis déjà crée au lieu de les indicer"/>
+      <Propriete name="CreerPDF" intitule="Creer des PDF automatiquement" info="Creer des PDF automatiquement à l'impression d'un document" defaut="true"/>
+      <Propriete name="MajVignette" intitule="Mettre les vignettes à jour en temp réel" defaut="true"/>
+    </Objet>
+    <Objet name="Version">
+      <Propriete name="No"/>
+    </Objet>
+    <Objet name="Adresse_Client" intitule="Adresse de facturation">
+      <Propriete name="Id"/>
+      <Propriete name="No"/>
+      <Propriete name="Ref"/>
+      <Propriete name="Intitule"/>
+      <Propriete name="Adresse"/>
+      <Propriete name="Cp"/>
+      <Propriete name="Ville"/>
+    </Objet>
+  </Objets>
+  <Enums>
+    <Enum name="StatutDevis_e">
+      <Champ name="cEnCours" valeur="1" intitule="En cours"/>
+      <Champ name="cEnvoye" valeur="2" intitule="Envoyé"/>
+      <Champ name="cValide" valeur="3" intitule="Accepté"/>
+      <Champ name="cTermine" valeur="4" intitule="Terminé"/>
+      <Champ name="cRefuse" valeur="5" intitule="Refusé"/>
+      <Champ name="cIndice" valeur="6" intitule="Indicé"/>
+    </Enum>
+    <Enum name="StatutFacture_e">
+      <Champ name="cEnCours" valeur="1" intitule="En cours"/>
+      <Champ name="cEnvoye" valeur="2" intitule="Envoyé"/>
+      <Champ name="cRegle" valeur="3" intitule="Reglé"/>
+      <Champ name="cAnnule" valeur="4" intitule="Annulé"/>
+    </Enum>
+    <Enum name="StatutAchat_e">
+      <Champ name="cEnCours" valeur="1" intitule="En cours"/>
+      <Champ name="cRegle" valeur="4" intitule="Reglé"/>
+      <Champ name="cAnnule" valeur="5" intitule="Annulé"/>
+    </Enum>
+    <Enum name="CodeFamille_e">
+      <Champ name="cMainOeuvre" valeur="1" intitule="Main d'oeuvre"/>
+      <Champ name="cAchat" valeur="2" intitule="Achat"/>
+      <Champ name="cMarge" valeur="3" intitule="Marge"/>
+    </Enum>
+    <Enum name="CalculLigne_Facture_e">
+      <Champ name="cQuantite" valeur="1" intitule="Quantite"/>
+      <Champ name="cPourcentage" valeur="2" intitule="Avancement"/>
+    </Enum>
+  </Enums>
+</Base>

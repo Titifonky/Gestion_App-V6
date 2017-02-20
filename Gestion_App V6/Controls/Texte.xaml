@@ -1,0 +1,53 @@
+﻿<local:ControlBase x:Class="Gestion.Texte"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:local="clr-namespace:Gestion"
+                   mc:Ignorable="d"
+                   x:Name="parent"
+             >
+<Grid Name="xBase"
+          DataContext="{Binding ElementName=parent}"
+          Margin="{Binding MargeInterne}"
+          >
+        <DockPanel LastChildFill="True">
+            <TextBlock DockPanel.Dock="Left"
+                       Name="xIntitule"
+                       Margin="0,0,5,0"
+                       TextWrapping="NoWrap"
+                       VerticalAlignment="Center"
+                       Foreground="Black"
+                       TextAlignment="Right"
+                       Width="Auto"
+                       />
+            <Grid Name="xGrille">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Name="xValeur"
+                         Text="{Binding Valeur, Mode=TwoWay}"
+                         VerticalAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         KeyUp="TextBox_ToucheEntreeUpdate"
+                         BorderBrush="Black"
+                         BorderThickness="1"
+                         TextWrapping="{Binding TextWrapping}"
+                         AcceptsReturn="{Binding AcceptsReturn}"
+                         TextAlignment="{Binding TextAlignment}"
+                         Visibility="Hidden"
+                         />
+                <TextBlock Grid.Column="1"
+                           Name="xUnite"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Margin="1,0,0,0"
+                           Foreground="Black"
+                           TextAlignment="Left"
+                           />
+            </Grid>
+        </DockPanel>
+    </Grid>
+</local:ControlBase>

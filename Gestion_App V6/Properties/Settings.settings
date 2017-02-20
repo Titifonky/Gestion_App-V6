@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Gestion.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="NomDossierDevis" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">0 - Devis</Value>
+    </Setting>
+    <Setting Name="NomDossierFacture" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">0 - Facture</Value>
+    </Setting>
+    <Setting Name="NomFichierInfos" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Infos.txt</Value>
+    </Setting>
+    <Setting Name="IdUtilisateur" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

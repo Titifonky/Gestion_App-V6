@@ -1,0 +1,49 @@
+﻿<local:ControlBase x:Class="Gestion.Date"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:local="clr-namespace:Gestion"
+                   mc:Ignorable="d"
+                   x:Name="parent"
+             >
+    <Grid x:Name="xBase"
+          DataContext="{Binding ElementName=parent}"
+          Margin="0,2,0,2"
+          >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0"
+                   Name="xIntitule"
+                   Margin="0,0,5,0"
+                   TextWrapping="NoWrap"
+                   VerticalAlignment="Center"
+                   />
+        <DatePicker Grid.Column="1"
+                    Name="xValeur"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    SelectedDate="{Binding Valeur, Mode=TwoWay}"
+                    SelectedDateFormat="Short"
+                    BorderThickness="1"
+                    BorderBrush="Black"
+                    />
+        <TextBox Grid.Column="2"
+                 Name="xAfficher"
+                 Text="{Binding Path=Valeur, StringFormat=dd/MM/yyyy, Mode=TwoWay}"
+                 TextWrapping="NoWrap"
+                 VerticalAlignment="Center"
+                 VerticalContentAlignment="Center"
+                 HorizontalAlignment="Left"
+                 HorizontalContentAlignment="Left"
+                 BorderBrush="Black"
+                 BorderThickness="1"
+                        />
+    </Grid>
+</local:ControlBase>

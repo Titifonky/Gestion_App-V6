@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!---
+Attributs possibles :
+  oldname : ancien nom de la colonne
+  fusion : pour fusionner les valeurs de plusieurs colonnes dans une seule
+  defaut : pour insérer une valeur par défaut dans une colonne lors de sa création
+  
+Pour faire une mise à jour, chaque nom de table doit être présent dans Structure
+sinon elle sera supprimée.
+Seul les colonnes à modifier sont nécessaires.
+-->
+
+<Bases>
+  <Base version="2">
+    <Structure>
+      <Tables>
+        <Table name="client" oldname="clients">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="societe" defaut="1"/>
+          <Colonne name="intitule" fusion="trim(replace(replace(concat(' ' , trim(concat(coalesce(prenom, ' ') , ' ' , coalesce(nom, ' '))) , char(10) , trim(coalesce(societe, ' ')) , ' '), concat(char(10) , ' '), ''),concat(' ' , char(10)), ''))"/>
+          <!---<Colonne name="intitule" fusion="trim(replace(replace(' ' || trim(coalesce(prenom, ' ') || ' ' || coalesce(nom, ' ')) || char(10) || trim(coalesce(societe, ' ')) || ' ',char(10) || ' ', ''),' ' || char(10), ''))"/>-->
+        </Table>
+        <Table name="achat" oldname="commandes">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="no_achat" oldname="ref"/>
+          <Colonne name="fournisseur" oldname="id_fournisseur"/>
+          <Colonne name="devis" oldname="id_devis"/>
+          <Colonne name="statut" oldname="statut_commande"/>
+          <Colonne name="prix" oldname="prix"/>
+        </Table>
+        <Table name="famille">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="societe" defaut="1"/>
+          <Colonne name="prix_exp" oldname="prix"/>
+          <Colonne name="qte_exp" oldname="qte"/>
+        </Table>
+        <Table name="ligne_facture" oldname="details">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="facture" oldname="id_facture"/>
+          <Colonne name="poste" oldname="id_poste"/>
+          <Colonne name="statut" oldname="statut_detail"/>
+          <Colonne name="imprimer_description" oldname="imprimer_description_poste"/>
+          <Colonne name="ht_unitaire" oldname="prix"/>
+          <Colonne name="qte" oldname="quantite"/>
+          <Colonne name="ht" oldname="ht"/>
+        </Table>
+        <Table name="devis" oldname="devis">
+          <Colonne name="ref" fusion="'E' || no || '-' || indice"/>
+          <Colonne name="client" oldname="id_client"/>
+          <Colonne name="conditions" defaut="concat('Acompte de 30 % à la commande' , char(10) , '50% à la pose' , char(10) , 'Solde à la réception de l''ouvrage' , char(10) , 'Devis valable deux mois')"/>
+          <Colonne name="statut" oldname="statut_devis"/>
+          <Colonne name="tva_pct" oldname="tva"/>
+          <Colonne name="acompte_pct" oldname="pct_acompte"/>
+          <Colonne name="prix_tt_cmde" oldname="commande"/>
+          <Colonne name="prix_tt_heure" oldname="prix_heures"/>
+          <Colonne name="nb_heure" oldname="heures"/>
+        </Table>
+        <Table name="facture" oldname="factures">
+          <Colonne name="ref" fusion="'E' || no || '-' || indice"/>
+          <Colonne name="devis" oldname="id_devis"/>
+          <Colonne name="statut" oldname="statut_facture"/>
+          <Colonne name="tva" fusion="prix_ttc - prix_ht"/>
+        </Table>
+        <Table name="fournisseur" oldname="fournisseurs">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="societe" defaut="1"/>
+          <Colonne name="intitule" fusion="trim(replace(replace(concat(' ' , trim(concat(coalesce(prenom, ' ') , ' ' , coalesce(nom, ' '))) , char(10) , trim(coalesce(societe, ' ')) , ' '), concat(char(10) , ' '), ''), concat(' ' , char(10)), ''))"/>
+          <!---<Colonne name="intitule" fusion="trim(replace(replace(' ' || trim(coalesce(prenom, ' ') || ' ' || coalesce(nom, ' ')) || char(10) || trim(coalesce(societe, ' ')) || ' ',char(10) || ' ', ''),' ' || char(10), ''))"/>-->
+        </Table>
+        <Table name="heure" oldname="heures">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="devis" oldname="id_devis"/>
+          <Colonne name="qte" oldname="quantite"/>
+          <Colonne name="prix_ht" oldname="vendu"/>
+        </Table>
+        <Table name="ligne_poste" oldname="lignes">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="no" oldname="tri"/>
+          <Colonne name="poste" oldname="id_poste"/>
+          <Colonne name="famille" oldname="code"/>
+          <Colonne name="qte" oldname="quantite"/>
+          <Colonne name="prix_exp" oldname="prix"/>
+          <Colonne name="qte_exp" oldname="quantite"/>
+          <Colonne name="debours_unitaire" oldname="debours"/>
+          <Colonne name="prix_ht" oldname="vendu"/>
+          <Colonne name="statut" oldname="statut_ligne"/>
+        </Table>
+        <Table name="poste" oldname="postes">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="no" oldname="tri"/>
+          <Colonne name="unite" oldname="unites"/>
+          <Colonne name="devis" oldname="id_devis"/>
+          <Colonne name="prix_ht" oldname="prix"/>
+          <Colonne name="statut" oldname="statut_poste"/>
+          <Colonne name="qte" oldname="quantite"/>
+        </Table>
+        <Table name="societe" oldname="societes">
+          <Colonne name="ref" oldname="no"/>
+          <Colonne name="prefix" defaut="E"/>
+          <Colonne name="denomination" oldname="societe"/>
+          <Colonne name="ref" defaut="E"/>
+          <Colonne name="pied" oldname="codes"/>
+        </Table>
+        <Table name="version">
+        </Table>
+      </Tables>
+    </Structure>
+    <Insertion>
+      <Tables>
+        <Table name="famille">
+          <Insert>
+            <Valeur name="prefix_utilisateur">E</Valeur>
+            <Valeur name="societe">1</Valeur>
+            <Valeur name="ref">1</Valeur>
+            <Valeur name="no">1</Valeur>
+            <Valeur name="code">1</Valeur>
+            <Valeur name="intitule">Etu</Valeur>
+            <Valeur name="description">Etude</Valeur>
+            <Valeur name="unite">h</Valeur>
+            <Valeur name="prix">52</Valeur>
+            <Valeur name="prix_exp">52</Valeur>
+            <Valeur name="qte">1</Valeur>
+            <Valeur name="qte_exp">1</Valeur>
+            <Valeur name="coef">1.1</Valeur>
+            <Valeur name="prix_forfaitaire">0</Valeur>
+            <Valeur name="supprimable">0</Valeur>
+          </Insert>
+          <Insert>
+            <Valeur name="prefix_utilisateur">E</Valeur>
+            <Valeur name="societe">1</Valeur>
+            <Valeur name="ref">2</Valeur>
+            <Valeur name="no">2</Valeur>
+            <Valeur name="code">1</Valeur>
+            <Valeur name="intitule">Fab</Valeur>
+            <Valeur name="description">Fabrication</Valeur>
+            <Valeur name="unite">h</Valeur>
+            <Valeur name="prix">38</Valeur>
+            <Valeur name="prix_exp">38</Valeur>
+            <Valeur name="qte">1</Valeur>
+            <Valeur name="qte_exp">1</Valeur>
+            <Valeur name="coef">1.1</Valeur>
+            <Valeur name="prix_forfaitaire">0</Valeur>
+            <Valeur name="supprimable">0</Valeur>
+          </Insert>
+          <Insert>
+            <Valeur name="prefix_utilisateur">E</Valeur>
+            <Valeur name="societe">1</Valeur>
+            <Valeur name="ref">3</Valeur>
+            <Valeur name="no">3</Valeur>
+            <Valeur name="code">2</Valeur>
+            <Valeur name="intitule">Fun</Valeur>
+            <Valeur name="description">Fourniture</Valeur>
+            <Valeur name="unite">u</Valeur>
+            <Valeur name="prix">1</Valeur>
+            <Valeur name="prix_exp">1</Valeur>
+            <Valeur name="qte">1</Valeur>
+            <Valeur name="qte_exp">1</Valeur>
+            <Valeur name="coef">1.3</Valeur>
+            <Valeur name="prix_forfaitaire">0</Valeur>
+            <Valeur name="supprimable">0</Valeur>
+          </Insert>
+          <Insert>
+            <Valeur name="prefix_utilisateur">E</Valeur>
+            <Valeur name="societe">1</Valeur>
+            <Valeur name="ref">4</Valeur>
+            <Valeur name="no">4</Valeur>
+            <Valeur name="code">1</Valeur>
+            <Valeur name="intitule">Pose</Valeur>
+            <Valeur name="description">Pose</Valeur>
+            <Valeur name="unite">h</Valeur>
+            <Valeur name="prix">38</Valeur>
+            <Valeur name="prix_exp">38</Valeur>
+            <Valeur name="qte">1</Valeur>
+            <Valeur name="qte_exp">1</Valeur>
+            <Valeur name="coef">1.1</Valeur>
+            <Valeur name="prix_forfaitaire">0</Valeur>
+            <Valeur name="supprimable">0</Valeur>
+          </Insert>
+          <Insert>
+            <Valeur name="prefix_utilisateur">E</Valeur>
+            <Valeur name="societe">1</Valeur>
+            <Valeur name="ref">5</Valeur>
+            <Valeur name="no">5</Valeur>
+            <Valeur name="code">1</Valeur>
+            <Valeur name="intitule">Trans</Valeur>
+            <Valeur name="description">Transport interne</Valeur>
+            <Valeur name="unite">h</Valeur>
+            <Valeur name="prix">50</Valeur>
+            <Valeur name="prix_exp">50</Valeur>
+            <Valeur name="qte">1</Valeur>
+            <Valeur name="qte_exp">1</Valeur>
+            <Valeur name="coef">1.1</Valeur>
+            <Valeur name="prix_forfaitaire">0</Valeur>
+            <Valeur name="supprimable">0</Valeur>
+          </Insert>
+          <Insert>
+            <Valeur name="prefix_utilisateur">E</Valeur>
+            <Valeur name="societe">1</Valeur>
+            <Valeur name="ref">6</Valeur>
+            <Valeur name="no">6</Valeur>
+            <Valeur name="code">2</Valeur>
+            <Valeur name="intitule">Dvrs</Valeur>
+            <Valeur name="description">Divers</Valeur>
+            <Valeur name="unite">u</Valeur>
+            <Valeur name="prix">1</Valeur>
+            <Valeur name="prix_exp">1</Valeur>
+            <Valeur name="qte">1</Valeur>
+            <Valeur name="qte_exp">1</Valeur>
+            <Valeur name="coef">1.3</Valeur>
+            <Valeur name="prix_forfaitaire">0</Valeur>
+            <Valeur name="supprimable">0</Valeur>
+          </Insert>
+          <Insert>
+            <Valeur name="prefix_utilisateur">E</Valeur>
+            <Valeur name="societe">1</Valeur>
+            <Valeur name="ref">7</Valeur>
+            <Valeur name="no">7</Valeur>
+            <Valeur name="code">3</Valeur>
+            <Valeur name="intitule">Marge</Valeur>
+            <Valeur name="description">Marge</Valeur>
+            <Valeur name="unite">u</Valeur>
+            <Valeur name="prix">1</Valeur>
+            <Valeur name="prix_exp">1</Valeur>
+            <Valeur name="qte">1</Valeur>
+            <Valeur name="qte_exp">1</Valeur>
+            <Valeur name="coef">1</Valeur>
+            <Valeur name="prix_forfaitaire">0</Valeur>
+            <Valeur name="supprimable">0</Valeur>
+          </Insert>
+        </Table>
+        <Table name="societe">
+          <Insert>
+            <Valeur name="no">1</Valeur>
+            <Valeur name="ref">1</Valeur>
+            <Valeur name="statut">MFB</Valeur>
+          </Insert>
+        </Table>
+      </Tables>
+    </Insertion>
+  </Base>
+  <Base version="3">
+    <Structure>
+      <Tables>
+        <Table name="client">
+          <Colonne name="favori" defaut="0"/>
+        </Table>
+        <Table name="devis">
+          <Colonne name="favori" defaut="0"/>
+        </Table>
+        <Table name="facture">
+          <Colonne name="favori" defaut="0"/>
+        </Table>
+      </Tables>
+    </Structure>
+  </Base>
+  <Base version="4">
+    <Structure>
+      <Tables>
+      </Tables>
+    </Structure>
+  </Base>
+  <Base version="5">
+    <Structure>
+      <Tables>
+        <Table name="utilisateur">
+          <Colonne name="ecraserindicepdf" defaut="0"/>
+        </Table>
+      </Tables>
+    </Structure>
+  </Base>
+  <Base version="6">
+    <Structure>
+      <Tables>
+        <Table name="utilisateur">
+          <Colonne name="creerpdf" defaut="1"/>
+        </Table>
+      </Tables>
+    </Structure>
+  </Base>
+  <Base version="7">
+    <Structure>
+      <Tables>
+      </Tables>
+    </Structure>
+  </Base>
+  <Base version="8">
+    <Structure>
+      <Tables>
+      </Tables>
+    </Structure>
+  </Base>
+  <Base version="9">
+    <Structure>
+      <Tables>
+        <Table name="facture" oldname="factures">
+          <Colonne name="ref" fusion="'E' || no || '-' || indice"/>
+          <Colonne name="devis" oldname="id_devis"/>
+          <Colonne name="statut" oldname="statut_facture"/>
+          <Colonne name="tva" fusion="prix_ttc - prix_ht"/>
+        </Table>
+      </Tables>
+    </Structure>
+  </Base>
+  <Base version="10">
+    <Structure>
+      <Tables>
+        <Table name="ligne_facture">
+          <Colonne name="calculligne_facture" defaut="1"/>
+        </Table>
+      </Tables>
+    </Structure>
+  </Base>
+</Bases>

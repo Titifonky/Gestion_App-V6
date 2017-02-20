@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Parametres>
+  <Module name="1080x1920" intitule="1080x1920">
+    <Parametre name="Principal_Left" intitule="" type="System.Double">130</Parametre>
+    <Parametre name="Principal_Top" intitule="" type="System.Double">130</Parametre>
+    <Parametre name="Principal_Width" intitule="" type="System.Double">1300</Parametre>
+    <Parametre name="Principal_Height" intitule="" type="System.Double">800</Parametre>
+  </Module>
+  <Module name="UtilisateurGED" intitule="UtilisateurGED" />
+</Parametres>

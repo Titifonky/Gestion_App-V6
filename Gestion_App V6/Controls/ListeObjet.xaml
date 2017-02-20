@@ -1,0 +1,37 @@
+﻿<local:ControlBase x:Class="Gestion.ListeObjet"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:local="clr-namespace:Gestion"
+                   mc:Ignorable="d"
+                   x:Name="parent"
+                   >
+    
+    <Grid x:Name="xBase"
+          Margin="0,2,0,2"
+          DataContext="{Binding ElementName=parent}"
+        >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Name="xIntitule"
+                   Margin="0,0,5,0"
+                   VerticalAlignment="Center"
+                   Grid.Column="0"
+                   />
+        <ComboBox Grid.Column="1"
+                  Name="xValeur"
+                  ItemsSource="{Binding ItemsSource, Mode=OneWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                  DisplayMemberPath="{Binding DisplayMemberPath}"
+                  SelectedValue="{Binding SelectedValue, Mode=TwoWay}"
+                  IsEditable="True"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center"
+                  BorderThickness="1"
+                  BorderBrush="Black"
+                  />
+    </Grid>
+</local:ControlBase>

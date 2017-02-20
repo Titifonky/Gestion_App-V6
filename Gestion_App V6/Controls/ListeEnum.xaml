@@ -1,0 +1,39 @@
+﻿<local:ControlBase x:Class="Gestion.ListeEnum"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:local="clr-namespace:Gestion"
+                   mc:Ignorable="d"
+                   x:Name="parent"
+             >
+    <UserControl.Resources>
+        <local:EnumToIntConverter x:Key="EnumToInt" />
+    </UserControl.Resources>
+    
+    <Grid x:Name="xBase"
+          Margin="0,2,0,2"
+          DataContext="{Binding ElementName=parent}"
+        >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Name="xIntitule"
+                   Margin="0,0,5,0"
+                   VerticalAlignment="Center"
+                   Grid.Column="0"
+                   />
+        <ComboBox Grid.Column="1"
+                  Name="xValeur"
+                  DisplayMemberPath="Value"
+                  SelectedValuePath="Key"
+                  SelectedValue="{Binding Path=Valeur, Mode=TwoWay, Converter={StaticResource EnumToInt}}"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Stretch"
+                  BorderThickness="1"
+                  BorderBrush="Black"
+                  />
+    </Grid>
+</local:ControlBase>

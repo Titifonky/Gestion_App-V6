@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Bases>
+<Connection name="locale">
+    <Server>192.168.1.20</Server>
+    <User>mfb</User>
+    <Port>3306</Port>
+    <Pw>Avantiti59</Pw>
+    <DB>mfb_gestion</DB>
+  </Connection>
+  <Connection name="distante">
+    <Server>le-metal.synology.me</Server>
+    <User>mfb</User>
+    <Port>3306</Port>
+    <Pw>Avantiti59</Pw>
+    <DB>mfb_gestion</DB>
+  </Connection>
+</Bases>

@@ -1,0 +1,42 @@
+﻿<Window x:Class="Gestion.ApercuAvantImpression"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Apercu avant Impression" Height="800" Width="710"
+        Name="windowApercuAvantImpression"
+        xmlns:local="clr-namespace:Gestion"
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <FlowDocumentReader Grid.Row="0" Name="xViewer" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" Margin="10,5,10,10" VerticalAlignment="Stretch"/>
+
+        <Grid Grid.Row="1" Name="xUtilisateur" Margin="10,10,10,5">
+            <local:Case Valeur="{Binding CreerPDF}" Editable="True" Intitule="True"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Background" Value="White"/>
+                </Style>
+            </Grid.Resources>
+            <Button Grid.Column="0" Content="Imprimer" FontSize="20" Padding="10,2,10,5" Margin="10,10,10,5" Click="Imprimer_Click"/>
+            <Button Grid.Column="1" Content="Mail" FontSize="20" Padding="10,2,10,5" Margin="10,10,10,5" Click="Mail_Click"/>
+            <Button Grid.Column="2" Content="Imprimer &amp; Mail" FontSize="20" Padding="10,2,10,5" Margin="10,10,10,5" Click="ImprimerEtMail_Click"/>
+            <Button Grid.Column="3" Content="Export PDF" FontSize="20" Padding="10,2,10,5" Margin="10,10,10,5" Click="Exporter_PDF_Click"/>
+            
+        </Grid>
+    </Grid>
+</Window>
