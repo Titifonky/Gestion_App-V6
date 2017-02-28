@@ -1908,7 +1908,7 @@
                                                                 </GridViewColumn.HeaderTemplate>
                                                                 <GridViewColumn.CellTemplate>
                                                                     <DataTemplate>
-                                                                        <local:Texte Valeur="{Binding Description}" Editable="True" MinWidth="40"/>
+                                                                        <local:Texte Valeur="{Binding Description}" Editable="True" AcceptsReturn="True" MinWidth="40"/>
                                                                     </DataTemplate>
                                                                 </GridViewColumn.CellTemplate>
                                                             </GridViewColumn>
