@@ -73,7 +73,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Gestion.App</StartupObject>
@@ -116,6 +116,9 @@
     <Compile Include="DicIntitules.cs" />
     <Compile Include="Objets\Adresse_Client.cs" />
     <Compile Include="Parametres.cs" />
+    <Compile Include="SelectionnerBase.xaml.cs">
+      <DependentUpon>SelectionnerBase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SelectionnerFichier.xaml.cs">
       <DependentUpon>SelectionnerFichier.xaml</DependentUpon>
     </Compile>
@@ -158,6 +161,10 @@
     <Compile Include="Objets\Version.cs" />
     <Compile Include="Recherche.cs" />
     <Compile Include="Settings.cs" />
+    <Page Include="SelectionnerBase.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SelectionnerFichier.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

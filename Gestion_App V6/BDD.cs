@@ -13,7 +13,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
 
 namespace Gestion
@@ -35,6 +34,27 @@ namespace Gestion
 
         static Bdd() { }
 
+        public static List<String> ListeBase()
+        {
+            List<String> ListeBases = new List<string>();
+
+            String pChemin = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @FichierConnexion);
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(pChemin);
+
+            XmlNode Bases = xmlDoc.SelectSingleNode("Bases");
+
+            if (Bases != null)
+            {
+
+                foreach (XmlNode nBase in Bases.ChildNodes)
+                    ListeBases.Add(nBase.Attributes["name"].Value);
+            }
+
+            return ListeBases;
+        }
+
         private static String ChargerInfosConnexion(XmlNode Connexion)
         {
             String Server = Connexion.SelectSingleNode("Server").InnerText;
@@ -48,7 +68,7 @@ namespace Gestion
             return String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};", Server, Port, User, Pw, DB);
         }
 
-        private static Boolean Connecter()
+        private static Boolean Connecter(String NomBase)
         {
 
             if ((_ConnexionBase != null) && (_ConnexionBase.State == ConnectionState.Open)) return true;
@@ -58,11 +78,12 @@ namespace Gestion
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(pChemin);
 
-            XmlNode Base = xmlDoc.SelectSingleNode("Bases");
+            XmlNode Bases = xmlDoc.SelectSingleNode("Bases");
 
-            // Si la table existe, on insert les valeurs
-            if (Base != null)
+            if (Bases != null)
             {
+                XmlNode Base = Bases.SelectSingleNode("Base[@name='" + NomBase + "']");
+
                 foreach (XmlNode Connexion in Base.ChildNodes)
                 {
                     
@@ -103,10 +124,10 @@ namespace Gestion
             }
         }
 
-        public static Boolean Initialiser()
+        public static Boolean Initialiser(String NomBase)
         {
 
-            if (!Connecter())
+            if (!Connecter(NomBase))
                 return false;
 
             String pChemin = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @FichierMapping);

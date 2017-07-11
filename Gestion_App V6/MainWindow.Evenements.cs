@@ -234,7 +234,7 @@ namespace Gestion
 
             Devis D = DataContext as Devis;
             if (D != null)
-            { D.CreerDossier(true); return; }
+            { D.CreerDossier(false); return; }
         }
 
         private void Ouvrir_Dossier_Click(object sender, RoutedEventArgs e)
@@ -242,35 +242,37 @@ namespace Gestion
             MenuItem I = sender as MenuItem;
             if (I != null)
             {
+                DirectoryInfo Dir = null;
                 ListBox B = ((ContextMenu)I.Parent).PlacementTarget as ListBox;
                 if (B != null)
                 {
-                    DirectoryInfo Dir = null;
-
                     Client C = B.SelectedItem as Client;
                     if (C != null)
-                    {
                         Dir = C.Dossier;
-                        if (Dir != null)
-                            System.Diagnostics.Process.Start(Dir.FullName);
-                    }
 
                     Devis D = B.SelectedItem as Devis;
                     if (D != null)
-                    {
                         Dir = D.Dossier;
-                        if (Dir != null)
-                            System.Diagnostics.Process.Start(Dir.FullName);
-                    }
 
                     Facture F = B.SelectedItem as Facture;
                     if (F != null)
-                    {
                         Dir = F.Devis.Dossier;
-                        if (Dir != null)
-                            System.Diagnostics.Process.Start(Dir.FullName);
+                }
+                else
+                {
+                    Grid Onglet = (I.Parent as ContextMenu).PlacementTarget as Grid;
+
+                    if (Onglet != null)
+                    {
+                        Devis D = Onglet.DataContext as Devis;
+
+                        if (D != null)
+                            Dir = D.Dossier;
                     }
                 }
+
+                if (Dir != null)
+                    System.Diagnostics.Process.Start(Dir.FullName);
             }
         }
 
@@ -279,19 +281,29 @@ namespace Gestion
             MenuItem I = sender as MenuItem;
             if (I != null)
             {
+                DirectoryInfo Dir = null;
                 ListBox B = ((ContextMenu)I.Parent).PlacementTarget as ListBox;
                 if (B != null)
                 {
-                    DirectoryInfo Dir = null;
-
                     Devis D = B.SelectedItem as Devis;
                     if (D != null)
-                    {
                         Dir = D.DossierIndice;
-                        if (Dir != null)
-                            System.Diagnostics.Process.Start(Dir.FullName);
+                }
+                else
+                {
+                    Grid Onglet = (I.Parent as ContextMenu).PlacementTarget as Grid;
+
+                    if (Onglet != null)
+                    {
+                        Devis D = Onglet.DataContext as Devis;
+
+                        if (D != null)
+                            Dir = D.DossierIndice;
                     }
                 }
+
+                if (Dir != null)
+                    System.Diagnostics.Process.Start(Dir.FullName);
             }
         }
 

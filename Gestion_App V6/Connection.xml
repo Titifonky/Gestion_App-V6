@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Bases>
-<Connection name="locale">
-    <Server>192.168.1.20</Server>
-    <User>mfb</User>
-    <Port>3306</Port>
-    <Pw>Avantiti59</Pw>
-    <DB>mfb_gestion</DB>
-  </Connection>
-  <Connection name="distante">
-    <Server>le-metal.synology.me</Server>
-    <User>mfb</User>
-    <Port>3306</Port>
-    <Pw>Avantiti59</Pw>
-    <DB>mfb_gestion</DB>
-  </Connection>
+  <Base name="MFB KreativMedia">
+    <Connection name="serveur">
+      <Server>80.74.155.2</Server>
+      <User>mfb</User>
+      <Port>3306</Port>
+      <Pw>Avantiti59</Pw>
+      <DB>mfb_gestion</DB>
+    </Connection>
+  </Base>
+  <Base name="Dessenne">
+    <Connection name="serveur">
+      <Server>80.74.155.2</Server>
+      <User>dessenne</User>
+      <Port>3306</Port>
+      <Pw>Avantiti59</Pw>
+      <DB>dessenne_gestion</DB>
+    </Connection>
+  </Base>
+  <Base name="MFB Mascart">
+    <Connection name="locale">
+      <Server>192.168.1.20</Server>
+      <User>mfb</User>
+      <Port>3306</Port>
+      <Pw>Avantiti59</Pw>
+      <DB>mfb_gestion</DB>
+    </Connection>
+    <Connection name="synology">
+      <Server>le-metal.synology.me</Server>
+      <User>mfb</User>
+      <Port>3306</Port>
+      <Pw>Avantiti59</Pw>
+      <DB>mfb_gestion</DB>
+    </Connection>
+  </Base>
 </Bases>
