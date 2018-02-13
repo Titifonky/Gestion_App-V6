@@ -1731,6 +1731,9 @@
                 <Grid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Publier" Click="Apercu_Devis_Click"/>
+                        <MenuItem Header="Ouvrir PDF" Click="Ouvrir_Devis_Click"/>
+                        <MenuItem Header="Ouvrir le dossier" Click="Ouvrir_Dossier_Click"/>
+                        <MenuItem Header="Ouvrir l'indice" Click="Ouvrir_Indice_Click"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
 
@@ -1864,7 +1867,7 @@
                                                     </ListView.ItemContainerStyle>
                                                     <ListView.View>
                                                         <GridView>
-                                                            <GridViewColumn Width="Auto">
+                                                            <!--<GridViewColumn Width="Auto">
                                                                 <GridViewColumn.HeaderTemplate>
                                                                     <DataTemplate>
                                                                         <local:Entete NomPropriete="No" Liste="{Binding Path=DataContext.ListeAchat.ListeEntete, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"/>
@@ -1875,7 +1878,7 @@
                                                                         <local:Texte Valeur="{Binding No}"/>
                                                                     </DataTemplate>
                                                                 </GridViewColumn.CellTemplate>
-                                                            </GridViewColumn>
+                                                            </GridViewColumn>-->
                                                             <GridViewColumn Width="Auto">
                                                                 <GridViewColumn.HeaderTemplate>
                                                                     <DataTemplate>
@@ -1888,7 +1891,7 @@
                                                                     </DataTemplate>
                                                                 </GridViewColumn.CellTemplate>
                                                             </GridViewColumn>
-                                                            <GridViewColumn>
+                                                            <!--<GridViewColumn>
                                                                 <GridViewColumn.HeaderTemplate>
                                                                     <DataTemplate>
                                                                         <local:Entete NomPropriete="No_Achat" Liste="{Binding Path=DataContext.ListeAchat.ListeEntete, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"/>
@@ -1899,7 +1902,7 @@
                                                                         <local:Texte Valeur="{Binding No_Achat}" Editable="True" MinWidth="40"/>
                                                                     </DataTemplate>
                                                                 </GridViewColumn.CellTemplate>
-                                                            </GridViewColumn>
+                                                            </GridViewColumn>-->
                                                             <GridViewColumn>
                                                                 <GridViewColumn.HeaderTemplate>
                                                                     <DataTemplate>
@@ -1908,7 +1911,7 @@
                                                                 </GridViewColumn.HeaderTemplate>
                                                                 <GridViewColumn.CellTemplate>
                                                                     <DataTemplate>
-                                                                        <local:Texte Valeur="{Binding Description}" Editable="True" MinWidth="40"/>
+                                                                        <local:Texte Valeur="{Binding Description}" Editable="True" AcceptsReturn="True" MinWidth="40"/>
                                                                     </DataTemplate>
                                                                 </GridViewColumn.CellTemplate>
                                                             </GridViewColumn>
@@ -1924,7 +1927,7 @@
                                                                     </DataTemplate>
                                                                 </GridViewColumn.CellTemplate>
                                                             </GridViewColumn>
-                                                            <GridViewColumn>
+                                                            <!--<GridViewColumn>
                                                                 <GridViewColumn.HeaderTemplate>
                                                                     <DataTemplate>
                                                                         <local:Entete NomPropriete="Statut" Liste="{Binding Path=DataContext.ListeAchat.ListeEntete, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"/>
@@ -1935,7 +1938,7 @@
                                                                         <local:ListeEnum Valeur="{Binding Statut}" Editable="True"/>
                                                                     </DataTemplate>
                                                                 </GridViewColumn.CellTemplate>
-                                                            </GridViewColumn>
+                                                            </GridViewColumn>-->
                                                         </GridView>
                                                     </ListView.View>
                                                     <ListView.ContextMenu>

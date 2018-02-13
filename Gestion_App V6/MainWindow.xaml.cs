@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 
 
 namespace Gestion
@@ -47,9 +45,14 @@ namespace Gestion
         {
             Log.Entete();
 
-            if (!Bdd.Initialiser()) return false;
+            SelectionnerBase Fenetre = new SelectionnerBase(Bdd.ListeBase());
+            Fenetre.ShowDialog();
 
-            xConnexionCourante.Text = "Connecté à la base : " + Bdd.ConnexionCourante;
+
+
+            if (!Bdd.Initialiser(Fenetre.BaseSelectionnee)) return false;
+
+            xConnexionCourante.Text = Fenetre.BaseSelectionnee + ", connecté à l'adresse : " + Bdd.ConnexionCourante;
 
             pSociete = Bdd.Liste<Societe>()[0];
 
