@@ -155,6 +155,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="MathExpressions.snk" />
   </ItemGroup>
   <ItemGroup>
