@@ -13,8 +13,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace Gestion
 {
@@ -50,48 +50,66 @@ namespace Gestion
 
         private static Boolean Connecter()
         {
+            Boolean Resultat = false;
 
-            if ((_ConnexionBase != null) && (_ConnexionBase.State == ConnectionState.Open)) return true;
+            NagScreen Nag = new NagScreen();
 
-            String pChemin = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @FichierConnexion);
+            Nag.Start();
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(pChemin);
-
-            XmlNode Base = xmlDoc.SelectSingleNode("Bases");
-
-            // Si la table existe, on insert les valeurs
-            if (Base != null)
+            if ((_ConnexionBase != null) && (_ConnexionBase.State == ConnectionState.Open))
             {
-                foreach (XmlNode Connexion in Base.ChildNodes)
-                {
-                    
-                    _ConnexionBase = new MySqlConnection(ChargerInfosConnexion(Connexion));
+                Nag.Texte.Text = "La base est déjà connecté... Cool !!!";
+                Resultat = true;
+            }
+            else
+            {
+                Nag.Texte.Text = "Essai de connexion";
 
-                    // Deux essais de connexion
-                    for (int i = 0; i < 2; i++)
+                String pChemin = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @FichierConnexion);
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(pChemin);
+
+                XmlNode Base = xmlDoc.SelectSingleNode("Bases");
+
+                // Si la table existe, on insert les valeurs
+                if (Base != null)
+                {
+                    foreach (XmlNode Connexion in Base.ChildNodes)
                     {
-                        try
+                        Nag.Texte.Text += "\n\nConnexion à la base \"" + ConnexionCourante + "\"";
+                        _ConnexionBase = new MySqlConnection(ChargerInfosConnexion(Connexion));
+
+                        // Deux essais de connexion
+                        for (int i = 0; i < 2; i++)
                         {
-                            _ConnexionBase.Open();
+                            Nag.Texte.Text += "\nTentative " + i;
+                            try
+                            {
+                                _ConnexionBase.Open();
+                                break;
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Methode("Bdd");
+                                Log.Message(String.Format("Erreur de connection à la base de donnée : {0}", ConnexionCourante));
+                                Log.Message(e);
+                            }
+                        }
+
+                        if (_ConnexionBase.State == ConnectionState.Open)
+                        {
+                            Nag.Texte.Text += "\nOk";
+                            Resultat = true;
                             break;
                         }
-                        catch (Exception e)
-                        {
-                            Log.Methode("Bdd");
-                            Log.Message(String.Format("Erreur de connection à la base de donnée : {0}", ConnexionCourante));
-                            Log.Message(e);
-                        }
-                    }
-
-                    if (_ConnexionBase.State == ConnectionState.Open)
-                    {
-                        return true;
                     }
                 }
             }
 
-            return false;
+            Nag.Close();
+
+            return Resultat;
         }
 
         public static void Deconnecter()

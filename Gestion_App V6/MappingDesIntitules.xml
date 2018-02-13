@@ -41,7 +41,7 @@ Attributs possibles :
       <Propriete name="Statut" intitule="Facturer le poste" defaut="true"/>
       <Propriete name="Imprimer_Description" intitule="Imprimer la description du poste" defaut="true"/>
       <Propriete name="Description" intitule="Description alternative"/>
-      <Propriete name="Ht_Unitaire" intitule="Ht Unitaire" unite="€" defaut="0"/>
+      <Propriete name="Ht_Unitaire" intitule="Ht" unite="€" defaut="0"/>
       <Propriete name="Qte" defaut="1"/>
       <Propriete name="CalculLigne_Facture" intitule="Méthode de calcul" info="Méthode de calcul" defaut="1"/>
       <Propriete name="Ht" intitule="Ht" unite="€" defaut="0"/>
@@ -232,7 +232,8 @@ Devis valable deux mois"/>
     </Enum>
     <Enum name="CalculLigne_Facture_e">
       <Champ name="cQuantite" valeur="1" intitule="Quantite"/>
-      <Champ name="cPourcentage" valeur="2" intitule="Avancement"/>
+      <Champ name="cPourcentage" valeur="2" intitule="% unitaire"/>
+      <Champ name="cPourcentageTotal" valeur="3" intitule="% total"/>
     </Enum>
   </Enums>
 </Base>

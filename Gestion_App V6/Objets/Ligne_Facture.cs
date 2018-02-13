@@ -8,9 +8,12 @@ namespace Gestion
     {
         [Description("Quantite")]
         cQuantite = 1,
-        [Description("Pourcentage")]
+        [Description("Pct unitaire")]
         [Unite("%")]
-        cPourcentage = 2
+        cPourcentage = 2,
+        [Description("Pct total")]
+        [Unite("%")]
+        cPourcentageTotal = 3
     }
 
     public class Ligne_Facture : ObjetGestion
@@ -177,6 +180,21 @@ namespace Gestion
                 Set(ref _CalculLigne_Facture, value, this);
 
                 Unite = SelectUnite();
+
+                switch (value)
+                {
+                    case CalculLigne_Facture_e.cQuantite:
+                        Ht_Unitaire = Poste.Prix_Unitaire;
+                        break;
+                    case CalculLigne_Facture_e.cPourcentage:
+                        Ht_Unitaire = Poste.Prix_Unitaire;
+                        break;
+                    case CalculLigne_Facture_e.cPourcentageTotal:
+                        Ht_Unitaire = Poste.Prix_Ht;
+                        break;
+                    default:
+                        break;
+                }
                 Calculer();
             }
         }
@@ -225,6 +243,9 @@ namespace Gestion
                 case CalculLigne_Facture_e.cQuantite:
                     break;
                 case CalculLigne_Facture_e.cPourcentage:
+                    Ht = Ht * 0.01;
+                    break;
+                case CalculLigne_Facture_e.cPourcentageTotal:
                     Ht = Ht * 0.01;
                     break;
                 default:
