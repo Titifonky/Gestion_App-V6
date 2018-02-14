@@ -232,8 +232,8 @@ Devis valable deux mois"/>
     </Enum>
     <Enum name="CalculLigne_Facture_e">
       <Champ name="cQuantite" valeur="1" intitule="Quantite"/>
-      <Champ name="cPourcentage" valeur="2" intitule="% unitaire"/>
-      <Champ name="cPourcentageTotal" valeur="3" intitule="% total"/>
+      <Champ name="cPourcentageUnitaire" valeur="2" intitule="Pct unitaire"/>
+      <Champ name="cPourcentageTotal" valeur="3" intitule="Pct total"/>
     </Enum>
   </Enums>
 </Base>
