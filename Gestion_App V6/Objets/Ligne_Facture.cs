@@ -8,9 +8,12 @@ namespace Gestion
     {
         [Description("Quantite")]
         cQuantite = 1,
-        [Description("Pourcentage")]
+        [Description("Pct unitaire")]
         [Unite("%")]
-        cPourcentage = 2
+        cPourcentageUnitaire = 2,
+        [Description("Pct total")]
+        [Unite("%")]
+        cPourcentageTotal = 3
     }
 
     public class Ligne_Facture : ObjetGestion
@@ -41,7 +44,7 @@ namespace Gestion
                 Double pHt_Unitaire = P.Prix_Unitaire;
 
 
-                if (CalculLigne_Facture == CalculLigne_Facture_e.cPourcentage)
+                if (CalculLigne_Facture == CalculLigne_Facture_e.cPourcentageUnitaire)
                 {
                     pQuantite = 100;
                     pHt_Unitaire = P.Prix_Ht;
@@ -63,7 +66,7 @@ namespace Gestion
 
                 Qte = pQuantite;
 
-                if (CalculLigne_Facture == CalculLigne_Facture_e.cPourcentage)
+                if (CalculLigne_Facture == CalculLigne_Facture_e.cPourcentageUnitaire)
                     Ht_Unitaire = P.Prix_Ht;
                 else
                     Ht_Unitaire = pHt_Unitaire;
@@ -177,6 +180,25 @@ namespace Gestion
                 Set(ref _CalculLigne_Facture, value, this);
 
                 Unite = SelectUnite();
+
+                if (EstCharge)
+                {
+                    switch (value)
+                    {
+                        case CalculLigne_Facture_e.cQuantite:
+                            Ht_Unitaire = Poste.Prix_Unitaire;
+                            break;
+                        case CalculLigne_Facture_e.cPourcentageUnitaire:
+                            Ht_Unitaire = Poste.Prix_Unitaire;
+                            break;
+                        case CalculLigne_Facture_e.cPourcentageTotal:
+                            Ht_Unitaire = Poste.Prix_Ht;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
                 Calculer();
             }
         }
@@ -224,7 +246,10 @@ namespace Gestion
             {
                 case CalculLigne_Facture_e.cQuantite:
                     break;
-                case CalculLigne_Facture_e.cPourcentage:
+                case CalculLigne_Facture_e.cPourcentageUnitaire:
+                    Ht = Ht * 0.01;
+                    break;
+                case CalculLigne_Facture_e.cPourcentageTotal:
                     Ht = Ht * 0.01;
                     break;
                 default:

@@ -325,7 +325,7 @@ namespace Gestion
                             }
                             break;
 
-                        case CalculLigne_Facture_e.cPourcentage:
+                        case CalculLigne_Facture_e.cPourcentageUnitaire:
                             FS = 13; FW = FontWeights.Normal;
                             Prg(DicIntitules.Intitule("Ligne_Facture", "Ht_Unitaire") + " : " + L.Ht_Unitaire + " " + DicIntitules.Unite("Ligne_Facture", "Ht_Unitaire"));
                             Prg(DicIntitules.Intitule("Ligne_Facture", "Qte") + " : " + L.Qte + " " + L.Unite);
@@ -334,7 +334,15 @@ namespace Gestion
                             Prg("Total : " + L.Ht + " " + DicIntitules.Unite("Ligne_Facture", "Ht"));
 
                             break;
+                        case CalculLigne_Facture_e.cPourcentageTotal:
+                            FS = 13; FW = FontWeights.Normal;
+                            Prg(DicIntitules.Intitule("Ligne_Facture", "Ht") + " : " + L.Ht_Unitaire + " " + DicIntitules.Unite("Ligne_Facture", "Ht"));
+                            Prg(DicIntitules.Intitule("Ligne_Facture", "Qte") + " : " + L.Qte + " " + L.Unite);
 
+                            FS = 15; FW = FontWeights.Bold;
+                            Prg("Total : " + L.Ht + " " + DicIntitules.Unite("Ligne_Facture", "Ht"));
+
+                            break;
                         default:
                             break;
                     }
