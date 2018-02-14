@@ -211,7 +211,7 @@ namespace Gestion
         }
 
         [Propriete, Max, NePasCopier]
-        [Tri(No = 3, DirectionTri = ListSortDirection.Descending)]
+        [Tri(No = 2, DirectionTri = ListSortDirection.Descending)]
         public override int No
         {
             get { return base.No; }
@@ -220,7 +220,7 @@ namespace Gestion
 
         private int _Indice = 0;
         [Propriete, NePasCopier]
-        [Tri(No = 4, DirectionTri = ListSortDirection.Descending)]
+        [Tri(No = 3, DirectionTri = ListSortDirection.Descending)]
         public int Indice
         {
             get { return _Indice; }
@@ -278,7 +278,6 @@ namespace Gestion
 
         private StatutDevis_e _Statut = StatutDevis_e.cEnCours;
         [Propriete, NePasCopier]
-        [Tri(No = 2, DirectionTri = ListSortDirection.Ascending)]
         public StatutDevis_e Statut
         {
             get { return _Statut; }
@@ -701,7 +700,8 @@ namespace Gestion
 
             Prix_Ht = pPrix_Ht;
             Marge = pMarge;
-            Marge_Pct = ArrondiPct((Marge / Prix_Ht) * 100.0);
+            //Marge_Pct = ArrondiPct((Marge / Prix_Ht) * 100.0);
+            Marge_Pct = ArrondiPct(((Prix_Ht / (Prix_Ht - Marge)) - 1) * 100);
 
             CalculerTva();
             CalculerTtc();

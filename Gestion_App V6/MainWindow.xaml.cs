@@ -45,14 +45,22 @@ namespace Gestion
         {
             Log.Entete();
 
-            SelectionnerBase Fenetre = new SelectionnerBase(Bdd.ListeBase());
-            Fenetre.ShowDialog();
+            String BaseSelectionnee = "";
+            List<String> ListeBase = Bdd.ListeBase();
+            if (ListeBase.Count == 1)
+                BaseSelectionnee = ListeBase[0];
+            else
+            {
+                SelectionnerBase Fenetre = new SelectionnerBase(ListeBase);
+                Fenetre.ShowDialog();
+                BaseSelectionnee = Fenetre.BaseSelectionnee;
+            }
 
 
 
-            if (!Bdd.Initialiser(Fenetre.BaseSelectionnee)) return false;
+            if (!Bdd.Initialiser(BaseSelectionnee)) return false;
 
-            xConnexionCourante.Text = Fenetre.BaseSelectionnee + ", connecté à l'adresse : " + Bdd.ConnexionCourante;
+            xConnexionCourante.Text = BaseSelectionnee + ", connecté à l'adresse : " + Bdd.ConnexionCourante;
 
             pSociete = Bdd.Liste<Societe>()[0];
 
