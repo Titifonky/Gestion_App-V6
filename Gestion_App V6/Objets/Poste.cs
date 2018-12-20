@@ -210,11 +210,12 @@ namespace Gestion
 
             Prix_Ht = Prix_Unitaire * Qte;
             Marge = Marge_Unitaire * Qte;
-            Marge_Pct = ArrondiPct((Marge / Prix_Ht) * 100);
+            //Marge_Pct = ArrondiPct((Marge / Prix_Ht) * 100);
+            Marge_Pct = ArrondiPct(((Prix_Ht / (Prix_Ht - Marge)) - 1) * 100);
 
             CalculerFacture(false);
 
-            if (Dependance)
+            if (Dependance && (Devis != null))
                 Devis.Calculer();
         }
 
@@ -232,7 +233,7 @@ namespace Gestion
             Deja_Facture_Ht = pDeja_Facture_Ht;
             Reste_A_Facture_Ht = Math.Max(Prix_Ht - Deja_Facture_Ht, 0);
 
-            if (Dependance)
+            if (Dependance && (Devis != null))
                 Devis.CalculerFacture();
         }
 
