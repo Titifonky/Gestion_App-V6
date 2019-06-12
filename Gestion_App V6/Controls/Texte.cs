@@ -170,86 +170,87 @@ namespace Gestion
             xUnite.Text = Texte;
         }
 
+        private void MajValeur()
+        {
+            if (Editable)
+            {
+                xValeur.Visibility = Visibility.Visible;
+                xValeur.Background = Brushes.White;
+                xValeur.IsHitTestVisible = true;
+            }
+            else
+            {
+                xValeur.Visibility = Visibility.Visible;
+                xValeur.Background = Brushes.Transparent;
+                xValeur.TextWrapping = TextWrapping;
+                //xValeur.IsReadOnly = true;
+                xValeur.BorderThickness = new Thickness(0);
+                xValeur.IsHitTestVisible = false;
+                if (Unite)
+                    xGrille.ColumnDefinitions[0].Width = GridLength.Auto;
+            }
+
+            if (Orientation == Orientation.Horizontal)
+                DockPanel.SetDock(xIntitule, Dock.Left);
+            else
+            {
+                DockPanel.SetDock(xIntitule, Dock.Top);
+                xIntitule.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+
+            if (Intitule)
+                xIntitule.Visibility = Visibility.Visible;
+            else
+                xIntitule.Visibility = Visibility.Collapsed;
+
+            if (Unite)
+                xUnite.Visibility = Visibility.Visible;
+            else
+                xUnite.Visibility = Visibility.Collapsed;
+
+            String pIntitule = DicIntitules.Intitule(Valeur_Objet, Valeur_Propriete);
+            xIntitule.Text = pIntitule + " :";
+
+            if (Unite)
+            {
+                _Unite = DicIntitules.Unite(Valeur_Objet, Valeur_Propriete);
+                xUnite.Text = _Unite;
+            }
+
+            MajSuffix();
+
+            if (Valeur != null && String.IsNullOrWhiteSpace(Valeur.ToString()) && (Editable == false))
+                xBase.Visibility = Visibility.Collapsed;
+
+            String ToolTip = DicIntitules.Info(Valeur_Objet, Valeur_Propriete);
+            if (!String.IsNullOrWhiteSpace(ToolTip))
+                xBase.ToolTip = ToolTip;
+
+            if (IntituleSeul)
+            {
+                xGrille.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+
+        String Valeur_Objet = "";
+        String Valeur_Propriete = "";
+        String Valeur_TypePropriete = "";
+
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-
-            if (e.Property == SuffixDP)
+            if ((e.Property == ValeurDP) && String.IsNullOrWhiteSpace(Valeur_Objet))
+                InfosBinding(e.Property, ref Valeur_Objet, ref Valeur_Propriete, ref Valeur_TypePropriete);
+            
+            if (IsLoaded)
             {
-                MajSuffix();
-            }
-
-            if (e.Property == SuffixConcatDP)
-            {
-                MajSuffix();
-            }
-
-            if (e.Property == ValeurDP)
-            {
-                if (Editable)
-                {
-                    xValeur.Visibility = System.Windows.Visibility.Visible;
-                    xValeur.Background = Brushes.White;
-                    xValeur.IsHitTestVisible = true;
-                }
-                else
-                {
-                    xValeur.Visibility = System.Windows.Visibility.Visible;
-                    xValeur.Background = Brushes.Transparent;
-                    xValeur.TextWrapping = TextWrapping;
-                    //xValeur.IsReadOnly = true;
-                    xValeur.BorderThickness = new Thickness(0);
-                    xValeur.IsHitTestVisible = false;
-                    if (Unite)
-                        xGrille.ColumnDefinitions[0].Width = GridLength.Auto;
-                }
-
-                if (Orientation == System.Windows.Controls.Orientation.Horizontal)
-                    DockPanel.SetDock(xIntitule, Dock.Left);
-                else
-                {
-                    DockPanel.SetDock(xIntitule, Dock.Top);
-                    xIntitule.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                }
-
-                if (Intitule)
-                    xIntitule.Visibility = System.Windows.Visibility.Visible;
-                else
-                    xIntitule.Visibility = System.Windows.Visibility.Collapsed;
-
-                if (Unite)
-                    xUnite.Visibility = System.Windows.Visibility.Visible;
-                else
-                    xUnite.Visibility = System.Windows.Visibility.Collapsed;
-
-                String Objet = "";
-                String Propriete = "";
-                String TypePropriete = "";
-
-                if (InfosBinding(e.Property, ref Objet, ref Propriete, ref TypePropriete))
-                {
-                    String pIntitule = DicIntitules.Intitule(Objet, Propriete);
-                    xIntitule.Text = pIntitule + " :";
-                    
-                    if (Unite)
-                    {
-                        _Unite = DicIntitules.Unite(Objet, Propriete);
-                        xUnite.Text = _Unite;
-                    }
-
+                if (e.Property == SuffixDP)
                     MajSuffix();
 
-                    if (String.IsNullOrWhiteSpace(Valeur.ToString()) && (Editable == false))
-                        xBase.Visibility = System.Windows.Visibility.Collapsed;
+                if (e.Property == SuffixConcatDP)
+                    MajSuffix();
 
-                    String ToolTip = DicIntitules.Info(Objet, Propriete);
-                    if (!String.IsNullOrWhiteSpace(ToolTip))
-                        xBase.ToolTip = ToolTip;
-
-                    if (IntituleSeul)
-                    {
-                        xGrille.Visibility = System.Windows.Visibility.Collapsed;
-                    }
-                }
+                if (e.Property == ValeurDP)
+                    MajValeur();
             }
 
             base.OnPropertyChanged(e);
@@ -257,7 +258,14 @@ namespace Gestion
 
         public Texte()
         {
+            Loaded += Texte_Loaded;
             InitializeComponent();
+        }
+
+        private void Texte_Loaded(object sender, RoutedEventArgs e)
+        {
+            MajSuffix();
+            MajValeur();
         }
     }
 }

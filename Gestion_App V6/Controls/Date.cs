@@ -51,51 +51,57 @@ namespace Gestion
             DependencyProperty.Register("Valeur", typeof(object),
               typeof(Date), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        String Valeur_Objet = "";
+        String Valeur_Propriete = "";
+        String Valeur_TypePropriete = "";
+
+        private void MajValeur()
+        {
+            if (Editable == true)
+            {
+                xValeur.Visibility = Visibility.Visible;
+                xValeur.Background = Brushes.White;
+                xValeur.IsHitTestVisible = true;
+                xAfficher.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                xValeur.Visibility = Visibility.Collapsed;
+                xValeur.Background = Brushes.Transparent;
+                xValeur.BorderThickness = new Thickness(0);
+                xValeur.IsHitTestVisible = false;
+
+                xAfficher.Visibility = Visibility.Visible;
+                xAfficher.Background = Brushes.Transparent;
+                xAfficher.BorderThickness = new Thickness(0);
+                xAfficher.IsHitTestVisible = false;
+            }
+
+            if (Intitule == true)
+                xIntitule.Visibility = Visibility.Visible;
+            else
+                xIntitule.Visibility = Visibility.Collapsed;
+
+            String pIntitule = DicIntitules.Intitule(Valeur_Objet, Valeur_Propriete);
+            xIntitule.Text = pIntitule + " :";
+
+            if (Valeur != null && String.IsNullOrWhiteSpace(Valeur.ToString()) && (Editable == false))
+                xBase.Visibility = System.Windows.Visibility.Collapsed;
+
+            String ToolTip = DicIntitules.Info(Valeur_Objet, Valeur_Propriete);
+            if (!String.IsNullOrWhiteSpace(ToolTip) && (Info == true))
+                xBase.ToolTip = ToolTip;
+        }
+
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (e.Property == ValeurDP)
+            if ((e.Property == ValeurDP) && String.IsNullOrWhiteSpace(Valeur_Objet))
+                InfosBinding(e.Property, ref Valeur_Objet, ref Valeur_Propriete, ref Valeur_TypePropriete);
+
+            if (IsLoaded)
             {
-                if (Editable == true)
-                {
-                    xValeur.Visibility = System.Windows.Visibility.Visible;
-                    xValeur.Background = Brushes.White;
-                    xValeur.IsHitTestVisible = true;
-                    xAfficher.Visibility = System.Windows.Visibility.Collapsed;
-                }
-                else
-                {
-                    xValeur.Visibility = System.Windows.Visibility.Collapsed;
-                    xValeur.Background = Brushes.Transparent;
-                    xValeur.BorderThickness = new Thickness(0);
-                    xValeur.IsHitTestVisible = false;
-
-                    xAfficher.Visibility = System.Windows.Visibility.Visible;
-                    xAfficher.Background = Brushes.Transparent;
-                    xAfficher.BorderThickness = new Thickness(0);
-                    xAfficher.IsHitTestVisible = false;
-                }
-
-                if (Intitule == true)
-                    xIntitule.Visibility = System.Windows.Visibility.Visible;
-                else
-                    xIntitule.Visibility = System.Windows.Visibility.Collapsed;
-
-                String Objet = "";
-                String Propriete = "";
-                String TypePropriete = "";
-
-                if (InfosBinding(e.Property, ref Objet, ref Propriete, ref TypePropriete))
-                {
-                    String pIntitule = DicIntitules.Intitule(Objet, Propriete);
-                    xIntitule.Text = pIntitule + " :";
-
-                    if (String.IsNullOrWhiteSpace(Valeur.ToString()) && (Editable == false))
-                        xBase.Visibility = System.Windows.Visibility.Collapsed;
-
-                    String ToolTip = DicIntitules.Info(Objet, Propriete);
-                    if (!String.IsNullOrWhiteSpace(ToolTip) && (Info == true))
-                        xBase.ToolTip = ToolTip;
-                }
+                if (e.Property == ValeurDP)
+                    MajValeur();
             }
 
             base.OnPropertyChanged(e);
@@ -103,7 +109,13 @@ namespace Gestion
 
         public Date()
         {
+            Loaded += Date_Loaded;
             InitializeComponent();
+        }
+
+        private void Date_Loaded(object sender, RoutedEventArgs e)
+        {
+            MajValeur();
         }
     }
 }

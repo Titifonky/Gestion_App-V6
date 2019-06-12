@@ -62,71 +62,80 @@ namespace Gestion
         public static readonly DependencyProperty ValeurDP =
             DependencyProperty.Register("Valeur", typeof(object),
               typeof(Case), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+
+        private void MajIntituleDerriere()
         {
-            if (e.Property == IntituleDerriereDP)
+            String pIntitule = DicIntitules.Intitule(IntituleDerriere_Objet, IntituleDerriere_Propriete);
+            if (IntituleDerriere == false)
+                pIntitule = pIntitule + " :";
+
+            xIntitule.Text = pIntitule;
+        }
+
+        private void MajValeur()
+        {
+            if (Editable == true)
             {
-                String Objet = "";
-                String Propriete = "";
-                String TypePropriete = "";
-
-                if (InfosBinding(e.Property, ref Objet, ref Propriete, ref TypePropriete))
-                {
-                    String pIntitule = DicIntitules.Intitule(Objet, Propriete);
-                    if (IntituleDerriere == false)
-                        pIntitule = pIntitule + " :";
-
-                    xIntitule.Text = pIntitule;
-                }
+                xValeur.Visibility = Visibility.Visible;
+                xValeur.IsHitTestVisible = true;
+            }
+            else
+            {
+                xValeur.Visibility = Visibility.Visible;
+                xValeur.IsHitTestVisible = false;
+                xValeur.ToolTip = null;
             }
 
-            if (e.Property == ValeurDP)
+            if (Intitule == true)
+                xIntitule.Visibility = Visibility.Visible;
+            else
+                xIntitule.Visibility = Visibility.Collapsed;
+
+            if (IntituleDerriere == true)
             {
-                if (Editable == true)
-                {
-                    xValeur.Visibility = System.Windows.Visibility.Visible;
-                    xValeur.IsHitTestVisible = true;
-                }
-                else
-                {
-                    xValeur.Visibility = System.Windows.Visibility.Visible;
-                    xValeur.IsHitTestVisible = false;
-                    xValeur.ToolTip = null;
-                }
+                Grid.SetColumn(xIntitule, 1);
+                Grid.SetColumn(xValeur, 0);
+                xIntitule.Margin = new Thickness(5, 0, 0, 0);
+            }
 
-                if (Intitule == true)
-                    xIntitule.Visibility = System.Windows.Visibility.Visible;
-                else
-                    xIntitule.Visibility = System.Windows.Visibility.Collapsed;
+            String pIntitule = DicIntitules.Intitule(Valeur_Objet, Valeur_Propriete);
+            if (IntituleDerriere == false)
+                pIntitule = pIntitule + " :";
 
-                if(IntituleDerriere == true)
-                {
-                    Grid.SetColumn(xIntitule, 1);
-                    Grid.SetColumn(xValeur, 0);
-                    xIntitule.Margin = new Thickness(5, 0, 0, 0);
-                }
+            xIntitule.Text = pIntitule;
 
-                String Objet = "";
-                String Propriete = "";
-                String TypePropriete = "";
-
-                if (InfosBinding(e.Property, ref Objet, ref Propriete, ref TypePropriete))
-                {
-                    String pIntitule = DicIntitules.Intitule(Objet, Propriete);
-                    if (IntituleDerriere == false)
-                        pIntitule = pIntitule + " :";
-
-                    xIntitule.Text = pIntitule;
-
-                    if (String.IsNullOrWhiteSpace(Valeur.ToString()) && (Editable == false))
-                        xBase.Visibility = System.Windows.Visibility.Collapsed;
+            if (String.IsNullOrWhiteSpace(Valeur.ToString()) && (Editable == false))
+                xBase.Visibility = Visibility.Collapsed;
 
 
-                    String ToolTip = DicIntitules.Info(Objet, Propriete);
-                    if (!String.IsNullOrWhiteSpace(ToolTip))
-                        xBase.ToolTip = ToolTip;
-                }
+            String ToolTip = DicIntitules.Info(Valeur_Objet, Valeur_Propriete);
+            if (!String.IsNullOrWhiteSpace(ToolTip))
+                xBase.ToolTip = ToolTip;
+        }
+
+        String IntituleDerriere_Objet = "";
+        String IntituleDerriere_Propriete = "";
+        String IntituleDerriere_TypePropriete = "";
+
+        String Valeur_Objet = "";
+        String Valeur_Propriete = "";
+        String Valeur_TypePropriete = "";
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if ((e.Property == IntituleDerriereDP) && String.IsNullOrWhiteSpace(IntituleDerriere_Objet))
+                InfosBinding(e.Property, ref IntituleDerriere_Objet, ref IntituleDerriere_Propriete, ref IntituleDerriere_TypePropriete);
+
+            if ((e.Property == ValeurDP) && String.IsNullOrWhiteSpace(Valeur_Objet))
+                InfosBinding(e.Property, ref Valeur_Objet, ref Valeur_Propriete, ref Valeur_TypePropriete);
+
+            if (IsLoaded)
+            {
+                if (e.Property == IntituleDerriereDP)
+                    MajIntituleDerriere();
+
+                if (e.Property == ValeurDP)
+                    MajValeur();
             }
 
             base.OnPropertyChanged(e);
@@ -134,7 +143,14 @@ namespace Gestion
 
         public Case()
         {
+            Loaded += Case_Loaded;
             InitializeComponent();
+        }
+
+        private void Case_Loaded(object sender, RoutedEventArgs e)
+        {
+            MajIntituleDerriere();
+            MajValeur();
         }
     }
 }
