@@ -13,9 +13,10 @@ namespace Gestion
 
         public Client(Societe S)
         {
+            Bdd2.Ajouter(this);
+
             Societe = S;
-            Bdd1.Ajouter(this);
-            
+
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Societe.PrefixUtilisateurCourant;
         }
@@ -107,6 +108,7 @@ namespace Gestion
             set { base.No = value; }
         }
 
+        private int? _Id_Societe = null;
         private Societe _Societe = null;
         [CleEtrangere]
         public Societe Societe
@@ -114,7 +116,7 @@ namespace Gestion
             get
             {
                 if (_Societe == null)
-                    _Societe = Bdd1.Parent<Societe, Client>(this);
+                    _Societe = Bdd2.Parent<Societe, Client>(this);
 
                 return _Societe;
             }
@@ -144,33 +146,40 @@ namespace Gestion
         }
 
         private ListeObservable<Devis> _ListeDevis = null;
+        [ListeObjetGestion]
         public ListeObservable<Devis> ListeDevis
         {
             get
             {
                 if(_ListeDevis == null)
-                    _ListeDevis = Bdd1.Enfants<Devis, Client>(this);
+                    _ListeDevis = Bdd2.Enfants<Devis, Client>(this);
 
                 return _ListeDevis;
             }
+
+            set { SetListe(ref _ListeDevis, value); }
         }
 
         private ListeObservable<Adresse_Client> _ListeAdresse_Client = null;
+        [ListeObjetGestion]
         public ListeObservable<Adresse_Client> ListeAdresse_Client
         {
             get
             {
                 if (_ListeAdresse_Client == null)
-                    _ListeAdresse_Client = Bdd1.Enfants<Adresse_Client, Client>(this);
+                    _ListeAdresse_Client = Bdd2.Enfants<Adresse_Client, Client>(this);
 
                 return _ListeAdresse_Client;
             }
+
+            set { SetListe(ref _ListeAdresse_Client, value); }
         }
 
         /// <summary>
         /// Methode pour simplifier les requetes
         /// </summary>
         private ListeObservable<Facture> _ListeFacture = null;
+        [ListeObjetGestion]
         public ListeObservable<Facture> ListeFacture
         {
             get
@@ -200,6 +209,7 @@ namespace Gestion
 
                 return _ListeFacture;
             }
+            set { SetListe(ref _ListeFacture, value); }
         }
 
         private ListeAvecTitre<ListeAvecTitre<Object>> _ListeAnalyseDevis = null;
@@ -240,7 +250,7 @@ namespace Gestion
             else
                 _ListeAnalyseFacture.Clear();
 
-            Bdd1.AnalyseClient(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
+            Bdd2.AnalyseClient(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
         }
 
         public override Boolean Supprimer()
@@ -268,7 +278,7 @@ namespace Gestion
             catch { }
 
 
-            Bdd1.Supprimer<Client>(this);
+            Bdd2.Supprimer<Client>(this);
 
             return true;
         }

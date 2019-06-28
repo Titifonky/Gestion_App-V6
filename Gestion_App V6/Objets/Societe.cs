@@ -7,7 +7,7 @@ namespace Gestion
     [ForcerAjout]
     public class Societe : ObjetGestion
     {
-        public Societe() { Bdd1.Ajouter(this); }
+        public Societe() { Bdd2.Ajouter(this); }
 
         private String _Statut = "";
         [Propriete]
@@ -91,7 +91,7 @@ namespace Gestion
             get { return _UtilisateurCourant; }
             set
             {
-                Set(ref _UtilisateurCourant, value);
+                SetListe(ref _UtilisateurCourant, value);
                 OnModifyUtilisateur(_UtilisateurCourant.Id);
             }
         }
@@ -102,51 +102,59 @@ namespace Gestion
         }
 
         private ListeObservable<Client> _ListeClient = null;
+        [ListeObjetGestion]
         public ListeObservable<Client> ListeClient
         {
             get
             {
                 if (_ListeClient == null)
-                    _ListeClient = Bdd1.Enfants<Client, Societe>(this);
+                    _ListeClient = Bdd2.Enfants<Client, Societe>(this);
 
                 return _ListeClient;
             }
+            set { SetListe(ref _ListeClient, value); }
         }
 
         private ListeObservable<Fournisseur> _ListeFournisseur = null;
+        [ListeObjetGestion]
         public ListeObservable<Fournisseur> ListeFournisseur
         {
             get
             {
                 if (_ListeFournisseur == null)
-                    _ListeFournisseur = Bdd1.Enfants<Fournisseur, Societe>(this);
+                    _ListeFournisseur = Bdd2.Enfants<Fournisseur, Societe>(this);
 
                 return _ListeFournisseur;
             }
+            set { SetListe(ref _ListeFournisseur, value); }
         }
 
         private ListeObservable<Famille> _ListeFamille = null;
+        [ListeObjetGestion]
         public ListeObservable<Famille> ListeFamille
         {
             get
             {
                 if (_ListeFamille == null)
-                    _ListeFamille = Bdd1.Enfants<Famille, Societe>(this);
+                    _ListeFamille = Bdd2.Enfants<Famille, Societe>(this);
 
                 return _ListeFamille;
             }
+            set { SetListe(ref _ListeFamille, value); }
         }
 
         private ListeObservable<Utilisateur> _ListeUtilisateur = null;
+        [ListeObjetGestion]
         public ListeObservable<Utilisateur> ListeUtilisateur
         {
             get
             {
                 if (_ListeUtilisateur == null)
-                    _ListeUtilisateur = Bdd1.Enfants<Utilisateur, Societe>(this);
+                    _ListeUtilisateur = Bdd2.Enfants<Utilisateur, Societe>(this);
 
                 return _ListeUtilisateur;
             }
+            set { SetListe(ref _ListeUtilisateur, value); }
         }
 
         private ListeAvecTitre<ListeAvecTitre<Object>> _ListeAnalyseDevis = null;
@@ -185,7 +193,7 @@ namespace Gestion
             else
                 _ListeAnalyseFacture.Clear();
 
-            Bdd1.AnalyseSociete(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
+            Bdd2.AnalyseSociete(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
         }
     }
 }

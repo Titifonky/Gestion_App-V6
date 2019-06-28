@@ -22,10 +22,10 @@ namespace Gestion
 
         public Ligne_Facture(Facture F, Poste P)
         {
+            Bdd2.Ajouter(this);
+
             Facture = F;
             Poste = P;
-
-            Bdd1.Ajouter(this);
 
             No = P.No;
             
@@ -80,6 +80,7 @@ namespace Gestion
             Calculer();
         }
 
+        private int? _Id_Facture = null;
         private Facture _Facture = null;
         [CleEtrangere]
         public Facture Facture
@@ -87,7 +88,7 @@ namespace Gestion
             get
             {
                 if (_Facture == null)
-                    _Facture = Bdd1.Parent<Facture, Ligne_Facture>(this);
+                    _Facture = Bdd2.Parent<Facture, Ligne_Facture>(this);
 
                 return _Facture;
             }
@@ -99,6 +100,7 @@ namespace Gestion
             }
         }
 
+        private int? _Id_Poste = null;
         private Poste _Poste = null;
         [CleEtrangere, ForcerCopie]
         public Poste Poste
@@ -106,7 +108,7 @@ namespace Gestion
             get
             {
                 if (_Poste == null)
-                    _Poste = Bdd1.Parent<Poste, Ligne_Facture>(this);
+                    _Poste = Bdd2.Parent<Poste, Ligne_Facture>(this);
 
                 return _Poste;
             }
@@ -278,7 +280,7 @@ namespace Gestion
                 Poste.CalculerFacture();
             }
 
-            Bdd1.Supprimer<Ligne_Facture>(this);
+            Bdd2.Supprimer<Ligne_Facture>(this);
             return true;
         }
     }

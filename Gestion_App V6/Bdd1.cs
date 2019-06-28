@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Gestion
+namespace GestionOld
 {
 
     public static class Bdd1
@@ -851,23 +851,7 @@ namespace Gestion
                 // Si c'est une propriété MAX, on récupère le maximum de la colonne suivant les conditions
                 if (Attribute.IsDefined(Prop, typeof(Max)))
                 {
-                    String pFiltreColonne = "";
-
-                    // On récupère l'attribut Max
-                    // On vérifie s'il a une propriété d'attachée
-                    Max pAttMax = (Max)Prop.GetCustomAttributes(typeof(Max)).First();
-                    if (!String.IsNullOrWhiteSpace(pAttMax.NomPropriete))
-                    {
-                        String pNomProp = pAttMax.NomPropriete;
-                        // On récupere la propriété liée
-                        PropertyInfo pProp = pDicProp[NomChamp(pNomProp)];
-                        // Sa valeur
-                        String Valeur = pProp.GetValue(Objet).ToString();
-                        // On crée le filtre
-                        pFiltreColonne = "WHERE " + pNomProp + "=" + Valeur;
-                    }
-
-                    String pQueryMax = String.Format("SELECT MAX({0}) FROM {1} {2}", NomChamp(Prop), NomTable(typeof(T)), pFiltreColonne);
+                    String pQueryMax = String.Format("SELECT MAX({0}) FROM {1}", NomChamp(Prop), NomTable(typeof(T)));
 
                     int pVal = (int)RecupererChamp(pQueryMax, Prop.PropertyType) + 1;
                     Prop.SetValue(Objet, pVal);

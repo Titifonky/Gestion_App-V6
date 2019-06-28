@@ -8,13 +8,15 @@ namespace Gestion
 
         public Fournisseur(Societe S)
         {
+            Bdd2.Ajouter(this);
+
             Societe = S;
-            Bdd1.Ajouter(this);
             
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Societe.PrefixUtilisateurCourant;
         }
 
+        private int? _Id_Societe = null;
         private Societe _Societe = null;
         [CleEtrangere]
         public Societe Societe
@@ -22,7 +24,7 @@ namespace Gestion
             get
             {
                 if (_Societe == null)
-                    _Societe = Bdd1.Parent<Societe, Fournisseur>(this);
+                    _Societe = Bdd2.Parent<Societe, Fournisseur>(this);
 
                 return _Societe;
             }
@@ -67,15 +69,17 @@ namespace Gestion
         }
 
         private ListeObservable<Achat> _ListeCommande = null;
+        [ListeObjetGestion]
         public ListeObservable<Achat> ListeCommande
         {
             get
             {
                 if (_ListeCommande == null)
-                    _ListeCommande = Bdd1.Enfants<Achat, Fournisseur>(this);
+                    _ListeCommande = Bdd2.Enfants<Achat, Fournisseur>(this);
 
                 return _ListeCommande;
             }
+            set { SetListe(ref _ListeCommande, value); }
         }
 
         public override Boolean Supprimer()
@@ -84,7 +88,7 @@ namespace Gestion
 
             Societe.ListeFournisseur.Remove(this);
 
-            Bdd1.Supprimer(this);
+            Bdd2.Supprimer(this);
 
             return true;
         }

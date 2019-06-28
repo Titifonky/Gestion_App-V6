@@ -13,7 +13,7 @@ namespace Gestion
         public Adresse_Client(Client C)
         {
             Client = C;
-            Bdd1.Ajouter(this);
+            Bdd2.Ajouter(this);
 
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Client.Societe.PrefixUtilisateurCourant;
@@ -34,7 +34,7 @@ namespace Gestion
             get
             {
                 if (_Client == null)
-                    _Client = Bdd1.Parent<Client, Adresse_Client>(this);
+                    _Client = Bdd2.Parent<Client, Adresse_Client>(this);
 
                 return _Client;
             }
@@ -85,7 +85,7 @@ namespace Gestion
             if (Client != null)
                 Client.ListeAdresse_Client.Remove(this);
 
-            Bdd1.Supprimer<Adresse_Client>(this);
+            Bdd2.Supprimer<Adresse_Client>(this);
 
             return true;
         }

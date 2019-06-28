@@ -46,7 +46,7 @@ namespace Gestion
             Log.Entete();
 
             String BaseSelectionnee = "";
-            List<String> ListeBase = Bdd1.ListeBase();
+            List<String> ListeBase = Bdd2.ListeBase();
             if (ListeBase.Count == 1)
                 BaseSelectionnee = ListeBase[0];
             else
@@ -58,23 +58,15 @@ namespace Gestion
 
 
 
-            if (!Bdd1.Initialiser(BaseSelectionnee)) return false;
+            if (!Bdd2.Initialiser(BaseSelectionnee)) return false;
 
-            xConnexionCourante.Text = BaseSelectionnee + ", connecté à l'adresse : " + Bdd1.ConnexionCourante;
+            xConnexionCourante.Text = BaseSelectionnee + ", connecté à l'adresse : " + Bdd2.ConnexionCourante;
 
-            pSociete = Bdd1.Liste<Societe>()[0];
+            pSociete = Bdd2.Liste<Societe>()[0];
 
-            ListeObservable<Ligne_Poste> liste = Bdd1.Liste<Ligne_Poste>();
+            var ListeFamille = Bdd2.Liste<Famille>();
 
-            //Regex rgx = new Regex(@"\.0$");
-
-            //foreach (var L in liste)
-            //{
-            //    L.Prix_Exp = rgx.Replace(L.Prix_Exp, "");
-            //    L.Qte_Exp = rgx.Replace(L.Qte_Exp, "");
-            //}
-
-            //Bdd.Enregistrer();
+            Bdd2.PreCharger(typeof(Famille), new List<ObjetGestion>(ListeFamille));
 
             pSociete.OnModifyUtilisateur += new Societe.OnModifyUtilisateurEventHandler(id => { Properties.Settings.Default.IdUtilisateur = id; Properties.Settings.Default.Save(); });
 
@@ -94,7 +86,7 @@ namespace Gestion
             {
                 U = new Utilisateur(pSociete);
                 U.Prefix_Utilisateur = "A";
-                Bdd1.Ajouter(U);
+                Bdd2.Ajouter(U);
             }
 
             pSociete.UtilisateurCourant = U;
@@ -121,27 +113,22 @@ namespace Gestion
         private void TrierListe<T>(ListBox Box)
             where T : ObjetGestion
         {
-            List<String> NomCles = new List<String>();
-            List<PropertyInfo> pListeTri = Bdd1.DicProprietes.ListeTri(typeof(T));
+            foreach (var info in Bdd2.DicProp.Dic[typeof(T)].ListeTri)
+                Box.Items.SortDescriptions.Add(new SortDescription(info.NomProp, info.Tri.DirectionTri));
 
-            foreach (PropertyInfo P in pListeTri)
-            {
-                ListSortDirection Dir = (P.GetCustomAttributes(typeof(Tri)).First() as Tri).DirectionTri;
-                Box.Items.SortDescriptions.Add(new SortDescription(P.Name, Dir));
-            }
             Box.Items.IsLiveSorting = true;
         }
 
         public void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             MessageBoxResult R = MessageBoxResult.No;
-            if (Bdd1.DoitEtreEnregistre)
+            if (Bdd2.DoitEtreEnregistre)
                 R = MessageBox.Show("Voulez vous enregistrer la base ?", "Info", MessageBoxButton.YesNo);
 
             if (R == MessageBoxResult.Yes)
-                Bdd1.Enregistrer();
+                Bdd2.Enregistrer();
 
-            Bdd1.Deconnecter();
+            Bdd2.Deconnecter();
 
             WindowParam.SauverParametre(this);
         }

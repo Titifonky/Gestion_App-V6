@@ -7,7 +7,7 @@
       <User>mfb</User>
       <Port>3306</Port>
       <Pw>Avantiti59!?</Pw>
-      <DB>mfb_gestion</DB>
+      <DB>mfb_gestion_test</DB>
     </Connection>
   </Base>
   <Base name="MFB Mascart">

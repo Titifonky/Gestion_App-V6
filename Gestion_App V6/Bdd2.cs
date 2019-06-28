@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
@@ -12,10 +11,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
 
-namespace Compta
+namespace Gestion
 {
 
     public static class Bdd2
@@ -1517,6 +1515,254 @@ namespace Compta
                     this.Add(item);
             }
         }
+
+        private static String AffNb(Object Obj, String Unite = "")
+        {
+            return (Math.Round(((Double)Convert.ChangeType(Obj, typeof(Double)))).ToString() + " " + Unite).Trim();
+        }
+
+        public static void AnalyseClient(ref ListeAvecTitre<ListeAvecTitre<Object>> ListeAnalyseDevis, ref ListeAvecTitre<ListeAvecTitre<Object>> ListeAnalyseFacture, int Id)
+        {
+            #region DEVIS
+
+            Dictionary<int, StatutDevis_e> pDicStatutDevis = new Dictionary<int, StatutDevis_e>();
+            foreach (StatutDevis_e Statut in Enum.GetValues(typeof(StatutDevis_e)))
+                pDicStatutDevis.Add((int)Statut, Statut);
+
+            {
+                String sql = String.Format(@"SELECT statut,
+                                                    count(id) as nb,
+                                                    sum(prix_ht) as ht,
+                                                    sum(marge) as marge,
+                                                    sum(prix_tt_achat) as achat,
+                                                    sum(deja_facture_ht) as deja_facture,
+                                                    sum(reste_a_facture_ht) as reste_facture,
+                                                    year(date) AS dte
+                                             FROM devis
+                                             WHERE client = {0}
+                                             GROUP BY statut, dte
+                                             ORDER BY dte DESC, statut;"
+                                              , Id.ToString());
+                DataTable Table = RecupererTable(sql);
+                if (Table == null) return;
+
+                Dictionary<int, ListeAvecTitre<Object>> pDic = new Dictionary<int, ListeAvecTitre<Object>>();
+                foreach (DataRow Li in Table.Rows)
+                {
+                    int Index = (int)Convert.ChangeType(Li["statut"], typeof(int));
+
+                    if (!pDicStatutDevis.ContainsKey(Index))
+                        continue;
+
+                    StatutDevis_e D = pDicStatutDevis[Index];
+
+                    int Date = (int)Convert.ChangeType(Li["dte"], typeof(int));
+                    ListeAvecTitre<Object> pListe = null;
+
+                    if (pDic.ContainsKey(Date))
+                        pListe = pDic[Date];
+                    else
+                    {
+                        pListe = new ListeAvecTitre<Object>(Date.ToString());
+                        pDic.Add(Date, pListe);
+                    }
+
+                    pListe.Add(new
+                    {
+                        Intitule = D.GetEnumDescription(),
+                        Nb = AffNb(Li["nb"]),
+                        Ht = AffNb(Li["ht"], "€"),
+                        Marge = AffNb(Li["marge"], "€"),
+                        Achat = AffNb(Li["achat"], "€"),
+                        Deja_Facture = AffNb(Li["deja_facture"], "€"),
+                        Reste_Facture = AffNb(Li["reste_facture"], "€")
+                    });
+                }
+
+                ListeAnalyseDevis.Importer(pDic.Values);
+            }
+
+            #endregion
+
+            #region FACTURE
+
+            Dictionary<int, StatutFacture_e> pDicStatutFacture = new Dictionary<int, StatutFacture_e>();
+            foreach (StatutFacture_e Statut in Enum.GetValues(typeof(StatutFacture_e)))
+                pDicStatutFacture.Add((int)Statut, Statut);
+
+            {
+                String sql = String.Format(@"SELECT facture.statut,
+                                                    count(facture.id) as nb,
+                                                    sum(facture.prix_ht) as ht,
+                                                    year(facture.date) AS dte
+                                             FROM facture
+                                             INNER JOIN devis
+                                             ON facture.devis = devis.id
+                                             WHERE devis.client = {0}
+                                             GROUP BY facture.statut, dte
+                                             ORDER BY dte DESC, facture.statut;"
+                                              , Id.ToString());
+                DataTable Table = RecupererTable(sql);
+                if (Table == null) return;
+
+                Dictionary<int, ListeAvecTitre<Object>> pDic = new Dictionary<int, ListeAvecTitre<Object>>();
+                foreach (DataRow Li in Table.Rows)
+                {
+                    int Index = (int)Convert.ChangeType(Li["statut"], typeof(int));
+
+                    if (!pDicStatutFacture.ContainsKey(Index))
+                        continue;
+
+                    StatutFacture_e F = pDicStatutFacture[Index];
+
+                    int Date = (int)Convert.ChangeType(Li["dte"], typeof(int));
+                    ListeAvecTitre<Object> pListe = null;
+
+                    if (pDic.ContainsKey(Date))
+                        pListe = pDic[Date];
+                    else
+                    {
+                        pListe = new ListeAvecTitre<Object>(Date.ToString());
+                        pDic.Add(Date, pListe);
+                    }
+
+                    pListe.Add(new
+                    {
+                        Intitule = F.GetEnumDescription(),
+                        Nb = AffNb(Li["nb"]),
+                        Ht = AffNb(Li["ht"], "€")
+                    });
+                }
+
+                ListeAnalyseFacture.Importer(pDic.Values);
+            }
+
+            #endregion
+        }
+
+        public static void AnalyseSociete(ref ListeAvecTitre<ListeAvecTitre<Object>> ListeAnalyseDevis, ref ListeAvecTitre<ListeAvecTitre<Object>> ListeAnalyseFacture, int Id)
+        {
+            #region DEVIS
+
+            Dictionary<int, StatutDevis_e> pDicStatutDevis = new Dictionary<int, StatutDevis_e>();
+            foreach (StatutDevis_e Statut in Enum.GetValues(typeof(StatutDevis_e)))
+                pDicStatutDevis.Add((int)Statut, Statut);
+
+            {
+                String sql = String.Format(@"SELECT devis.statut,
+                                                    count(devis.id) as nb,
+                                                    sum(devis.prix_ht) as ht,
+                                                    sum(devis.marge) as marge,
+                                                    sum(devis.prix_tt_achat) as achat,
+                                                    sum(devis.deja_facture_ht) as deja_facture,
+                                                    sum(devis.reste_a_facture_ht) as reste_facture,
+                                                    year(devis.date) as dte
+                                             FROM devis
+                                             INNER JOIN client
+                                             ON devis.client = client.id
+                                             WHERE client.societe = {0}
+                                             GROUP BY statut, dte
+                                             ORDER BY dte DESC, statut;"
+                                              , Id.ToString());
+                DataTable Table = RecupererTable(sql);
+                if (Table == null) return;
+
+                Dictionary<int, ListeAvecTitre<Object>> pDic = new Dictionary<int, ListeAvecTitre<Object>>();
+                foreach (DataRow Li in Table.Rows)
+                {
+                    int Index = (int)Convert.ChangeType(Li["statut"], typeof(int));
+
+                    if (!pDicStatutDevis.ContainsKey(Index))
+                        continue;
+
+                    StatutDevis_e D = pDicStatutDevis[Index];
+
+                    int Date = (int)Convert.ChangeType(Li["dte"], typeof(int));
+                    ListeAvecTitre<Object> pListe = null;
+
+                    if (pDic.ContainsKey(Date))
+                        pListe = pDic[Date];
+                    else
+                    {
+                        pListe = new ListeAvecTitre<Object>(Date.ToString());
+                        pDic.Add(Date, pListe);
+                    }
+
+                    pListe.Add(new
+                    {
+                        Intitule = D.GetEnumDescription(),
+                        Nb = AffNb(Li["nb"]),
+                        Ht = AffNb(Li["ht"], "€"),
+                        Marge = AffNb(Li["marge"], "€"),
+                        Achat = AffNb(Li["achat"], "€"),
+                        Deja_Facture = AffNb(Li["deja_facture"], "€"),
+                        Reste_Facture = AffNb(Li["reste_facture"], "€")
+                    });
+                }
+
+                ListeAnalyseDevis.Importer(pDic.Values);
+            }
+
+            #endregion
+
+            #region FACTURE
+
+            Dictionary<int, StatutFacture_e> pDicStatutFacture = new Dictionary<int, StatutFacture_e>();
+            foreach (StatutFacture_e Statut in Enum.GetValues(typeof(StatutFacture_e)))
+                pDicStatutFacture.Add((int)Statut, Statut);
+
+            {
+                String sql = String.Format(@"SELECT facture.statut,
+                                                    count(facture.id) as nb,
+                                                    sum(facture.prix_ht) as ht,
+                                                    year(facture.date) as dte
+                                             FROM ( facture
+                                             INNER JOIN devis
+                                             ON facture.devis = devis.id )
+                                             INNER JOIN client
+                                             ON devis.client = client.id
+                                             WHERE client.societe = {0}
+                                             GROUP BY facture.statut, dte
+                                             ORDER BY dte DESC, facture.statut;"
+                                              , Id.ToString());
+                DataTable Table = RecupererTable(sql);
+                if (Table == null) return;
+
+                Dictionary<int, ListeAvecTitre<Object>> pDic = new Dictionary<int, ListeAvecTitre<Object>>();
+                foreach (DataRow Li in Table.Rows)
+                {
+                    int Index = (int)Convert.ChangeType(Li["statut"], typeof(int));
+
+                    if (!pDicStatutFacture.ContainsKey(Index))
+                        continue;
+
+                    StatutFacture_e F = pDicStatutFacture[Index];
+
+                    int Date = (int)Convert.ChangeType(Li["dte"], typeof(int));
+                    ListeAvecTitre<Object> pListe = null;
+
+                    if (pDic.ContainsKey(Date))
+                        pListe = pDic[Date];
+                    else
+                    {
+                        pListe = new ListeAvecTitre<Object>(Date.ToString());
+                        pDic.Add(Date, pListe);
+                    }
+
+                    pListe.Add(new
+                    {
+                        Intitule = F.GetEnumDescription(),
+                        Nb = AffNb(Li["nb"]),
+                        Ht = AffNb(Li["ht"], "€")
+                    });
+                }
+
+                ListeAnalyseFacture.Importer(pDic.Values);
+            }
+
+            #endregion
+        }
+
     }
 
 }

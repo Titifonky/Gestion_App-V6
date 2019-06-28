@@ -97,11 +97,11 @@ namespace Gestion
                         Chaine_Recherche = Regex.Replace(Valeur, @"(^\[)(.*)(\])(.*)", "$4");
                         Chaine_Prop = Regex.Replace(Valeur, @"(^\[)(.*)(\])(.*)", "$2");
                     }
-                    
-                    foreach (PropertyInfo Prop in Bdd1.DicProprietes.ListePropriete(typeof(T)).Values)
+
+                    foreach (var info in Bdd2.DicProp.Dic[typeof(T)].ListeInfo)
                     {
-                        if (Regex.IsMatch(Prop.Name.ToLower(), Chaine_Prop.ToLower()))
-                            if (Regex.IsMatch(Prop.GetValue(Obj).ToString().RemoveDiacritics(), Chaine_Recherche, RegexOptions.IgnoreCase))
+                        if (Regex.IsMatch(info.NomProp.ToLower(), Chaine_Prop.ToLower()))
+                            if (Regex.IsMatch(info.Propriete.GetValue(Obj).ToString().RemoveDiacritics(), Chaine_Recherche, RegexOptions.IgnoreCase))
                                 return true;
                     }
                 }

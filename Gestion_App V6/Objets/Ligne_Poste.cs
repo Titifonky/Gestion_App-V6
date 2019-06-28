@@ -14,14 +14,14 @@ namespace Gestion
 
         public Ligne_Poste(Poste P)
         {
+            Bdd2.Ajouter(this);
+
             Poste = P;
 
             // On initialise la famille
             ListeObservable<Famille> F = Poste.Devis.Client.Societe.ListeFamille;
             if ((F != null) && (F.Count > 0))
                 Famille = F[0];
-
-            Bdd1.Ajouter(this);
 
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Poste.Devis.Client.Societe.PrefixUtilisateurCourant;
@@ -41,6 +41,7 @@ namespace Gestion
             set { base.No = value; }
         }
 
+        private int? _Id_Poste = null;
         private Poste _Poste = null;
         [CleEtrangere]
         public Poste Poste
@@ -48,7 +49,7 @@ namespace Gestion
             get
             {
                 if (_Poste == null)
-                    _Poste = Bdd1.Parent<Poste, Ligne_Poste>(this);
+                    _Poste = Bdd2.Parent<Poste, Ligne_Poste>(this);
 
                 return _Poste;
             }
@@ -72,6 +73,7 @@ namespace Gestion
             }
         }
 
+        private int? _Id_Famille = null;
         private Famille _Famille = null;
         // Le champ peut être NULL, donc aucune contrainte de base
         [CleEtrangere(Contrainte=""), ForcerCopie]
@@ -80,7 +82,7 @@ namespace Gestion
             get
             {
                 if (_Famille == null)
-                    _Famille = Bdd1.Parent<Famille, Ligne_Poste>(this);
+                    _Famille = Bdd2.Parent<Famille, Ligne_Poste>(this);
 
                 return _Famille;
             }
@@ -292,7 +294,7 @@ namespace Gestion
             if(Poste != null)
                 Poste.ListeLignePoste.Remove(this);
 
-            Bdd1.Supprimer<Ligne_Poste>(this);
+            Bdd2.Supprimer<Ligne_Poste>(this);
 
             if (Poste != null)
                 Poste.Calculer();

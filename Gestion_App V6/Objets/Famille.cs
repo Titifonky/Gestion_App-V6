@@ -20,13 +20,15 @@ namespace Gestion
 
         public Famille(Societe S)
         {
+            Bdd2.Ajouter(this);
+
             Societe = S;
-            Bdd1.Ajouter(this);
             
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Societe.PrefixUtilisateurCourant;
         }
 
+        private int? _Id_Societe = null;
         private Societe _Societe = null;
         [CleEtrangere]
         public Societe Societe
@@ -34,7 +36,7 @@ namespace Gestion
             get
             {
                 if (_Societe == null)
-                    _Societe = Bdd1.Parent<Societe, Famille>(this);
+                    _Societe = Bdd2.Parent<Societe, Famille>(this);
 
                 return _Societe;
             }
@@ -165,7 +167,7 @@ namespace Gestion
             {
                 Societe.ListeFamille.Remove(this);
 
-                Bdd1.Supprimer<Famille>(this);
+                Bdd2.Supprimer<Famille>(this);
                 return true;
             }
 

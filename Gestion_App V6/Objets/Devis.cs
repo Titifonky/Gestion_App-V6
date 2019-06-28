@@ -34,8 +34,9 @@ namespace Gestion
 
         public Devis(Client C)
         {
+            Bdd2.Ajouter(this);
+
             Client = C;
-            Bdd1.Ajouter(this);
 
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Client.Societe.PrefixUtilisateurCourant;
@@ -224,6 +225,7 @@ namespace Gestion
             set { Set(ref _Indice, value, this); }
         }
 
+        private int? _Id_Client = null;
         private Client _Client = null;
         [CleEtrangere]
         public Client Client
@@ -231,7 +233,7 @@ namespace Gestion
             get
             {
                 if (_Client == null)
-                    _Client = Bdd1.Parent<Client, Devis>(this);
+                    _Client = Bdd2.Parent<Client, Devis>(this);
 
                 return _Client;
             }
@@ -251,6 +253,7 @@ namespace Gestion
             }
         }
 
+        private int? _Id_Adresse_Client = null;
         private Adresse_Client _Adresse_Client = null;
         [CleEtrangere]
         public Adresse_Client Adresse_Client
@@ -258,7 +261,7 @@ namespace Gestion
             get
             {
                 if (_Adresse_Client == null)
-                    _Adresse_Client = Bdd1.Parent<Adresse_Client, Devis>(this);
+                    _Adresse_Client = Bdd2.Parent<Adresse_Client, Devis>(this);
 
 
                 if (_Adresse_Client == null)
@@ -489,43 +492,49 @@ namespace Gestion
         }
 
         private ListeObservable<Poste> _ListePoste = null;
+        [ListeObjetGestion]
         public ListeObservable<Poste> ListePoste
         {
             get
             {
                 if (_ListePoste == null)
                 {
-                    _ListePoste = Bdd1.Enfants<Poste, Devis>(this);
+                    _ListePoste = Bdd2.Enfants<Poste, Devis>(this);
                     if ((_ListePoste != null) && (_ListePoste.Count > 0) && (_ListePoste[0].No == 0))
                         _ListePoste.Numeroter();
                 }
 
                 return _ListePoste;
             }
+            set { SetListe(ref _ListePoste, value); }
         }
 
         private ListeObservable<Facture> _ListeFacture = null;
+        [ListeObjetGestion]
         public ListeObservable<Facture> ListeFacture
         {
             get
             {
                 if (_ListeFacture == null)
-                    _ListeFacture = Bdd1.Enfants<Facture, Devis>(this);
+                    _ListeFacture = Bdd2.Enfants<Facture, Devis>(this);
 
                 return _ListeFacture;
             }
+            set { SetListe(ref _ListeFacture, value); }
         }
 
         private ListeObservable<Achat> _ListeAchat = null;
+        [ListeObjetGestion]
         public ListeObservable<Achat> ListeAchat
         {
             get
             {
                 if (_ListeAchat == null)
-                    _ListeAchat = Bdd1.Enfants<Achat, Devis>(this);
+                    _ListeAchat = Bdd2.Enfants<Achat, Devis>(this);
 
                 return _ListeAchat;
             }
+            set { SetListe(ref _ListeAchat, value); }
         }
 
         private ListeObservable<Heure> _ListeHeure = null;
@@ -533,8 +542,8 @@ namespace Gestion
         {
             get
             {
-                if (_ListeHeure == null)
-                    _ListeHeure = Bdd1.Enfants<Heure, Devis>(this);
+                //if (_ListeHeure == null)
+                //    _ListeHeure = Bdd2.Enfants<Heure, Devis>(this);
 
                 return _ListeHeure;
             }
@@ -772,7 +781,7 @@ namespace Gestion
             if (Client != null)
                 Client.ListeDevis.Remove(this);
 
-            Bdd1.Supprimer(this);
+            Bdd2.Supprimer(this);
 
             return true;
         }

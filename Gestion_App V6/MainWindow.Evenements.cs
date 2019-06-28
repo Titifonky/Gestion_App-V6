@@ -172,7 +172,16 @@ namespace Gestion
             { ModeleTitre = "xTitreClient"; ModeleCorps = "xEditerClientControlTemplate"; }
 
             else if (typeof(T) == typeof(Devis))
-            { ModeleTitre = "xTitreDevis"; ModeleCorps = "xEditerDevisControlTemplate"; }
+            {
+                ModeleTitre = "xTitreDevis"; ModeleCorps = "xEditerDevisControlTemplate";
+                U devis = (U)DataContext;
+
+                var result1 = Bdd2.PreCharger(typeof(U), new List<ObjetGestion>() { devis });
+
+                var result2 = Bdd2.PreCharger(typeof(Poste), result1[typeof(Poste)]);
+
+                var result3 = Bdd2.PreCharger(typeof(Ligne_Poste), result2[typeof(Ligne_Poste)]);
+            }
 
             else if (typeof(T) == typeof(Facture))
             { ModeleTitre = "xTitreFacture"; ModeleCorps = "xEditerFactureControlTemplate"; }
@@ -309,9 +318,9 @@ namespace Gestion
 
         private void Enregistrer_Click(object sender, RoutedEventArgs e)
         {
-            if (Bdd1.DoitEtreEnregistre)
+            if (Bdd2.DoitEtreEnregistre)
             {
-                Bdd1.Enregistrer();
+                Bdd2.Enregistrer();
                 xDerniereSvg.Text = "Dernière sauvegarde à " + DateTime.Now.Hour + "h" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
             }
             else
@@ -334,13 +343,13 @@ namespace Gestion
 
         private void Nettoyer(Boolean Calculer = true)
         {
-            ListeObservable<Devis> ListeDevis = Bdd1.Liste<Devis>();
-            ListeObservable<Poste> ListePoste = Bdd1.Liste<Poste>();
-            ListeObservable<Ligne_Poste> ListeLigne_Poste = Bdd1.Liste<Ligne_Poste>();
-            ListeObservable<Achat> ListeAchat = Bdd1.Liste<Achat>();
+            ListeObservable<Devis> ListeDevis = Bdd2.Liste<Devis>();
+            ListeObservable<Poste> ListePoste = Bdd2.Liste<Poste>();
+            ListeObservable<Ligne_Poste> ListeLigne_Poste = Bdd2.Liste<Ligne_Poste>();
+            ListeObservable<Achat> ListeAchat = Bdd2.Liste<Achat>();
 
-            ListeObservable<Facture> ListeFacture = Bdd1.Liste<Facture>();
-            ListeObservable<Ligne_Facture> ListeLigne_Facture = Bdd1.Liste<Ligne_Facture>();
+            ListeObservable<Facture> ListeFacture = Bdd2.Liste<Facture>();
+            ListeObservable<Ligne_Facture> ListeLigne_Facture = Bdd2.Liste<Ligne_Facture>();
 
             String Titre = "Calcul des lignes de factures : ";
             int i = 1;
@@ -444,7 +453,7 @@ namespace Gestion
             ToggleButton Bt = sender as ToggleButton;
 
             if (Bt.IsChecked == true)
-                xListeDevis.ItemsSource = Bdd1.Liste<Devis>();
+                xListeDevis.ItemsSource = Bdd2.Liste<Devis>();
             else if (Bt.IsChecked == false)
                 xListeDevis.SetBinding(ListBox.ItemsSourceProperty, DevisExpItem.ParentBindingBase);
         }
@@ -465,7 +474,7 @@ namespace Gestion
             ToggleButton Bt = sender as ToggleButton;
 
             if (Bt.IsChecked == true)
-                xListeFactureClient.ItemsSource = Bdd1.Liste<Facture>();
+                xListeFactureClient.ItemsSource = Bdd2.Liste<Facture>();
             else if (Bt.IsChecked == false)
                 xListeFactureClient.SetBinding(ListBox.ItemsSourceProperty, FactureExpItem.ParentBindingBase);
         }

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Gestion
 {
@@ -66,15 +70,17 @@ namespace Gestion
     }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class ListeObjetGestion : Attribute
-    {
-        public ListeObjetGestion() { }
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
     public class Max : Attribute
     {
+        String _NomPropriete = "";
+
         public Max() { }
+
+        public String NomPropriete
+        {
+            get { return _NomPropriete; }
+            set { _NomPropriete = value; }
+        }
     }
 
     [AttributeUsage(AttributeTargets.Property)]
@@ -96,22 +102,6 @@ namespace Gestion
         {
             get { return _DirectionTri; }
             set { _DirectionTri = value; }
-        }
-
-        public String DirectionTriSql
-        {
-            get
-            {
-                switch (_DirectionTri)
-                {
-                    case ListSortDirection.Ascending:
-                        return "ASC";
-                    case ListSortDirection.Descending:
-                        return "DESC";
-                    default:
-                        return "ASC";
-                }
-            }
         }
 
         public Boolean Modifiable
@@ -151,7 +141,4 @@ namespace Gestion
             set { _Unite = value; }
         }
     }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class NePasPreCharger : Attribute { }
 }

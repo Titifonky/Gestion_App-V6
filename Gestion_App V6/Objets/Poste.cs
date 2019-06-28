@@ -10,8 +10,9 @@ namespace Gestion
 
         public Poste(Devis D)
         {
+            Bdd2.Ajouter(this);
+
             Devis = D;
-            Bdd1.Ajouter(this);
             
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Devis.Client.Societe.PrefixUtilisateurCourant;
@@ -26,6 +27,7 @@ namespace Gestion
             set { base.No = value; }
         }
 
+        private int? _Id_Devis = null;
         private Devis _Devis = null;
         [CleEtrangere]
         public Devis Devis
@@ -33,7 +35,7 @@ namespace Gestion
             get
             {
                 if (_Devis == null)
-                    _Devis = Bdd1.Parent<Devis, Poste>(this);
+                    _Devis = Bdd2.Parent<Devis, Poste>(this);
 
                 return _Devis;
             }
@@ -163,27 +165,31 @@ namespace Gestion
 
 
         private ListeObservable<Ligne_Poste> _ListeLignePoste = null;
+        [ListeObjetGestion]
         public ListeObservable<Ligne_Poste> ListeLignePoste
         {
             get
             {
                 if (_ListeLignePoste == null)
-                    _ListeLignePoste = Bdd1.Enfants<Ligne_Poste, Poste>(this);
+                    _ListeLignePoste = Bdd2.Enfants<Ligne_Poste, Poste>(this);
 
                 return _ListeLignePoste;
             }
+            set { SetListe(ref _ListeLignePoste, value); }
         }
 
         private ListeObservable<Ligne_Facture> _ListeLigneFacture = null;
+        [ListeObjetGestion]
         public ListeObservable<Ligne_Facture> ListeLigneFacture
         {
             get
             {
                 if (_ListeLigneFacture == null)
-                    _ListeLigneFacture = Bdd1.Enfants<Ligne_Facture, Poste>(this);
+                    _ListeLigneFacture = Bdd2.Enfants<Ligne_Facture, Poste>(this);
 
                 return _ListeLigneFacture;
             }
+            set { SetListe(ref _ListeLigneFacture, value); }
         }
 
         public void Calculer(Boolean Dependance = true)
@@ -247,7 +253,7 @@ namespace Gestion
             if (Devis != null)
                 Devis.ListePoste.Remove(this);
 
-            Bdd1.Supprimer<Poste>(this);
+            Bdd2.Supprimer<Poste>(this);
 
             if (Devis != null)
                 Devis.Calculer();
