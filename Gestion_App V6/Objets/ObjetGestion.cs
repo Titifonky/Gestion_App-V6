@@ -140,7 +140,7 @@ namespace Gestion
             MajRef();
             OnPropertyChanged(propertyName);
             if (EstSvgDansLaBase)
-                Bdd.Maj(Objet, T, propertyName);
+                Bdd1.Maj(Objet, T, propertyName);
             return true;
         }
 

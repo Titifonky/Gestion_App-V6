@@ -14,7 +14,7 @@ namespace Gestion
         public Client(Societe S)
         {
             Societe = S;
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
             
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Societe.PrefixUtilisateurCourant;
@@ -114,7 +114,7 @@ namespace Gestion
             get
             {
                 if (_Societe == null)
-                    _Societe = Bdd.Parent<Societe, Client>(this);
+                    _Societe = Bdd1.Parent<Societe, Client>(this);
 
                 return _Societe;
             }
@@ -149,7 +149,7 @@ namespace Gestion
             get
             {
                 if(_ListeDevis == null)
-                    _ListeDevis = Bdd.Enfants<Devis, Client>(this);
+                    _ListeDevis = Bdd1.Enfants<Devis, Client>(this);
 
                 return _ListeDevis;
             }
@@ -161,7 +161,7 @@ namespace Gestion
             get
             {
                 if (_ListeAdresse_Client == null)
-                    _ListeAdresse_Client = Bdd.Enfants<Adresse_Client, Client>(this);
+                    _ListeAdresse_Client = Bdd1.Enfants<Adresse_Client, Client>(this);
 
                 return _ListeAdresse_Client;
             }
@@ -240,7 +240,7 @@ namespace Gestion
             else
                 _ListeAnalyseFacture.Clear();
 
-            Bdd.AnalyseClient(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
+            Bdd1.AnalyseClient(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
         }
 
         public override Boolean Supprimer()
@@ -268,7 +268,7 @@ namespace Gestion
             catch { }
 
 
-            Bdd.Supprimer<Client>(this);
+            Bdd1.Supprimer<Client>(this);
 
             return true;
         }

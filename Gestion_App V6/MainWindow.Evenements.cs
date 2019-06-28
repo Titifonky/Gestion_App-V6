@@ -309,9 +309,9 @@ namespace Gestion
 
         private void Enregistrer_Click(object sender, RoutedEventArgs e)
         {
-            if (Bdd.DoitEtreEnregistre)
+            if (Bdd1.DoitEtreEnregistre)
             {
-                Bdd.Enregistrer();
+                Bdd1.Enregistrer();
                 xDerniereSvg.Text = "Dernière sauvegarde à " + DateTime.Now.Hour + "h" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
             }
             else
@@ -334,13 +334,13 @@ namespace Gestion
 
         private void Nettoyer(Boolean Calculer = true)
         {
-            ListeObservable<Devis> ListeDevis = Bdd.Liste<Devis>();
-            ListeObservable<Poste> ListePoste = Bdd.Liste<Poste>();
-            ListeObservable<Ligne_Poste> ListeLigne_Poste = Bdd.Liste<Ligne_Poste>();
-            ListeObservable<Achat> ListeAchat = Bdd.Liste<Achat>();
+            ListeObservable<Devis> ListeDevis = Bdd1.Liste<Devis>();
+            ListeObservable<Poste> ListePoste = Bdd1.Liste<Poste>();
+            ListeObservable<Ligne_Poste> ListeLigne_Poste = Bdd1.Liste<Ligne_Poste>();
+            ListeObservable<Achat> ListeAchat = Bdd1.Liste<Achat>();
 
-            ListeObservable<Facture> ListeFacture = Bdd.Liste<Facture>();
-            ListeObservable<Ligne_Facture> ListeLigne_Facture = Bdd.Liste<Ligne_Facture>();
+            ListeObservable<Facture> ListeFacture = Bdd1.Liste<Facture>();
+            ListeObservable<Ligne_Facture> ListeLigne_Facture = Bdd1.Liste<Ligne_Facture>();
 
             String Titre = "Calcul des lignes de factures : ";
             int i = 1;
@@ -444,7 +444,7 @@ namespace Gestion
             ToggleButton Bt = sender as ToggleButton;
 
             if (Bt.IsChecked == true)
-                xListeDevis.ItemsSource = Bdd.Liste<Devis>();
+                xListeDevis.ItemsSource = Bdd1.Liste<Devis>();
             else if (Bt.IsChecked == false)
                 xListeDevis.SetBinding(ListBox.ItemsSourceProperty, DevisExpItem.ParentBindingBase);
         }
@@ -465,7 +465,7 @@ namespace Gestion
             ToggleButton Bt = sender as ToggleButton;
 
             if (Bt.IsChecked == true)
-                xListeFactureClient.ItemsSource = Bdd.Liste<Facture>();
+                xListeFactureClient.ItemsSource = Bdd1.Liste<Facture>();
             else if (Bt.IsChecked == false)
                 xListeFactureClient.SetBinding(ListBox.ItemsSourceProperty, FactureExpItem.ParentBindingBase);
         }

@@ -11,7 +11,7 @@ namespace Gestion
         public Poste(Devis D)
         {
             Devis = D;
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
             
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Devis.Client.Societe.PrefixUtilisateurCourant;
@@ -33,7 +33,7 @@ namespace Gestion
             get
             {
                 if (_Devis == null)
-                    _Devis = Bdd.Parent<Devis, Poste>(this);
+                    _Devis = Bdd1.Parent<Devis, Poste>(this);
 
                 return _Devis;
             }
@@ -168,7 +168,7 @@ namespace Gestion
             get
             {
                 if (_ListeLignePoste == null)
-                    _ListeLignePoste = Bdd.Enfants<Ligne_Poste, Poste>(this);
+                    _ListeLignePoste = Bdd1.Enfants<Ligne_Poste, Poste>(this);
 
                 return _ListeLignePoste;
             }
@@ -180,7 +180,7 @@ namespace Gestion
             get
             {
                 if (_ListeLigneFacture == null)
-                    _ListeLigneFacture = Bdd.Enfants<Ligne_Facture, Poste>(this);
+                    _ListeLigneFacture = Bdd1.Enfants<Ligne_Facture, Poste>(this);
 
                 return _ListeLigneFacture;
             }
@@ -247,7 +247,7 @@ namespace Gestion
             if (Devis != null)
                 Devis.ListePoste.Remove(this);
 
-            Bdd.Supprimer<Poste>(this);
+            Bdd1.Supprimer<Poste>(this);
 
             if (Devis != null)
                 Devis.Calculer();

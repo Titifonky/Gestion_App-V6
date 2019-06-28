@@ -9,7 +9,7 @@ namespace Gestion
         public Fournisseur(Societe S)
         {
             Societe = S;
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
             
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Societe.PrefixUtilisateurCourant;
@@ -22,7 +22,7 @@ namespace Gestion
             get
             {
                 if (_Societe == null)
-                    _Societe = Bdd.Parent<Societe, Fournisseur>(this);
+                    _Societe = Bdd1.Parent<Societe, Fournisseur>(this);
 
                 return _Societe;
             }
@@ -72,7 +72,7 @@ namespace Gestion
             get
             {
                 if (_ListeCommande == null)
-                    _ListeCommande = Bdd.Enfants<Achat, Fournisseur>(this);
+                    _ListeCommande = Bdd1.Enfants<Achat, Fournisseur>(this);
 
                 return _ListeCommande;
             }
@@ -84,7 +84,7 @@ namespace Gestion
 
             Societe.ListeFournisseur.Remove(this);
 
-            Bdd.Supprimer(this);
+            Bdd1.Supprimer(this);
 
             return true;
         }

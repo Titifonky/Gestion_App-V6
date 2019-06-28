@@ -18,7 +18,7 @@ using System.Xml;
 namespace Gestion
 {
 
-    public static class Bdd
+    public static class Bdd1
     {
         private static Version VersionCourante = new Version(10);
         private static MySqlConnection _ConnexionBase = null;
@@ -32,7 +32,7 @@ namespace Gestion
         //private static String _SvgNom = "SvgBase";
         //private static String _SvgExt = ".sql";
 
-        static Bdd() { }
+        static Bdd1() { }
 
         public static List<String> ListeBase()
         {
@@ -150,8 +150,8 @@ namespace Gestion
                             MettreAJourLaBase(Base);
                     }
 
-                    Bdd.Ajouter<Version>(VersionCourante);
-                    Bdd.Enregistrer();
+                    Bdd1.Ajouter<Version>(VersionCourante);
+                    Bdd1.Enregistrer();
                 }
             }
             else
@@ -160,8 +160,8 @@ namespace Gestion
                 {
                     MettreAJourLaBase(Base);
                 }
-                Bdd.Ajouter<Version>(VersionCourante);
-                Bdd.Enregistrer();
+                Bdd1.Ajouter<Version>(VersionCourante);
+                Bdd1.Enregistrer();
             }
             return true;
         }

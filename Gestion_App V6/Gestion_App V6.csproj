@@ -217,7 +217,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BDD.cs" />
+    <Compile Include="Bdd.cs" />
     <Compile Include="Objets\Attribut.cs" />
     <Compile Include="Objets\Client.cs" />
     <Compile Include="Objets\Devis.cs" />

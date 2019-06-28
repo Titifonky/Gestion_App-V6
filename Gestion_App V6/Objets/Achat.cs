@@ -19,7 +19,7 @@ namespace Gestion
         {
             Devis = D;
 
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
             
             // On initialise le fournisseur
             ListeObservable<Fournisseur> F = Devis.Client.Societe.ListeFournisseur;
@@ -46,7 +46,7 @@ namespace Gestion
             get
             {
                 if (_Fournisseur == null)
-                    _Fournisseur = Bdd.Parent<Fournisseur, Achat>(this);
+                    _Fournisseur = Bdd1.Parent<Fournisseur, Achat>(this);
 
                 return _Fournisseur;
             }
@@ -60,7 +60,7 @@ namespace Gestion
             get
             {
                 if (_Devis == null)
-                    _Devis = Bdd.Parent<Devis, Achat>(this);
+                    _Devis = Bdd1.Parent<Devis, Achat>(this);
 
                 return _Devis;
             }
@@ -114,7 +114,7 @@ namespace Gestion
             Devis.ListeAchat.Remove(this);
             Devis.CalculerAchat();
 
-            Bdd.Supprimer<Achat>(this);
+            Bdd1.Supprimer<Achat>(this);
 
             return true;
         }

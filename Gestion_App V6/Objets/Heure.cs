@@ -12,7 +12,7 @@ namespace Gestion
         public Heure(Devis D)
         {
             Devis = D;
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
             
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Devis.Client.Societe.PrefixUtilisateurCourant;
@@ -25,7 +25,7 @@ namespace Gestion
             get
             {
                 if (_Devis == null)
-                    _Devis = Bdd.Parent<Devis, Heure>(this);
+                    _Devis = Bdd1.Parent<Devis, Heure>(this);
 
                 return _Devis;
             }
@@ -75,7 +75,7 @@ namespace Gestion
 
             Devis.ListeHeure.Remove(this);
 
-            Bdd.Supprimer<Heure>(this);
+            Bdd1.Supprimer<Heure>(this);
 
             return true;
         }

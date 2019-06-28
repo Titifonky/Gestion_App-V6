@@ -35,7 +35,7 @@ namespace Gestion
         public Devis(Client C)
         {
             Client = C;
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
 
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Client.Societe.PrefixUtilisateurCourant;
@@ -231,7 +231,7 @@ namespace Gestion
             get
             {
                 if (_Client == null)
-                    _Client = Bdd.Parent<Client, Devis>(this);
+                    _Client = Bdd1.Parent<Client, Devis>(this);
 
                 return _Client;
             }
@@ -258,7 +258,7 @@ namespace Gestion
             get
             {
                 if (_Adresse_Client == null)
-                    _Adresse_Client = Bdd.Parent<Adresse_Client, Devis>(this);
+                    _Adresse_Client = Bdd1.Parent<Adresse_Client, Devis>(this);
 
 
                 if (_Adresse_Client == null)
@@ -495,7 +495,7 @@ namespace Gestion
             {
                 if (_ListePoste == null)
                 {
-                    _ListePoste = Bdd.Enfants<Poste, Devis>(this);
+                    _ListePoste = Bdd1.Enfants<Poste, Devis>(this);
                     if ((_ListePoste != null) && (_ListePoste.Count > 0) && (_ListePoste[0].No == 0))
                         _ListePoste.Numeroter();
                 }
@@ -510,7 +510,7 @@ namespace Gestion
             get
             {
                 if (_ListeFacture == null)
-                    _ListeFacture = Bdd.Enfants<Facture, Devis>(this);
+                    _ListeFacture = Bdd1.Enfants<Facture, Devis>(this);
 
                 return _ListeFacture;
             }
@@ -522,7 +522,7 @@ namespace Gestion
             get
             {
                 if (_ListeAchat == null)
-                    _ListeAchat = Bdd.Enfants<Achat, Devis>(this);
+                    _ListeAchat = Bdd1.Enfants<Achat, Devis>(this);
 
                 return _ListeAchat;
             }
@@ -534,7 +534,7 @@ namespace Gestion
             get
             {
                 if (_ListeHeure == null)
-                    _ListeHeure = Bdd.Enfants<Heure, Devis>(this);
+                    _ListeHeure = Bdd1.Enfants<Heure, Devis>(this);
 
                 return _ListeHeure;
             }
@@ -772,7 +772,7 @@ namespace Gestion
             if (Client != null)
                 Client.ListeDevis.Remove(this);
 
-            Bdd.Supprimer(this);
+            Bdd1.Supprimer(this);
 
             return true;
         }

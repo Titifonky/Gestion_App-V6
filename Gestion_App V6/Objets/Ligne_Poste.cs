@@ -21,7 +21,7 @@ namespace Gestion
             if ((F != null) && (F.Count > 0))
                 Famille = F[0];
 
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
 
             // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
             Prefix_Utilisateur = Poste.Devis.Client.Societe.PrefixUtilisateurCourant;
@@ -48,7 +48,7 @@ namespace Gestion
             get
             {
                 if (_Poste == null)
-                    _Poste = Bdd.Parent<Poste, Ligne_Poste>(this);
+                    _Poste = Bdd1.Parent<Poste, Ligne_Poste>(this);
 
                 return _Poste;
             }
@@ -80,7 +80,7 @@ namespace Gestion
             get
             {
                 if (_Famille == null)
-                    _Famille = Bdd.Parent<Famille, Ligne_Poste>(this);
+                    _Famille = Bdd1.Parent<Famille, Ligne_Poste>(this);
 
                 return _Famille;
             }
@@ -292,7 +292,7 @@ namespace Gestion
             if(Poste != null)
                 Poste.ListeLignePoste.Remove(this);
 
-            Bdd.Supprimer<Ligne_Poste>(this);
+            Bdd1.Supprimer<Ligne_Poste>(this);
 
             if (Poste != null)
                 Poste.Calculer();

@@ -46,7 +46,7 @@ namespace Gestion
             Log.Entete();
 
             String BaseSelectionnee = "";
-            List<String> ListeBase = Bdd.ListeBase();
+            List<String> ListeBase = Bdd1.ListeBase();
             if (ListeBase.Count == 1)
                 BaseSelectionnee = ListeBase[0];
             else
@@ -58,13 +58,13 @@ namespace Gestion
 
 
 
-            if (!Bdd.Initialiser(BaseSelectionnee)) return false;
+            if (!Bdd1.Initialiser(BaseSelectionnee)) return false;
 
-            xConnexionCourante.Text = BaseSelectionnee + ", connecté à l'adresse : " + Bdd.ConnexionCourante;
+            xConnexionCourante.Text = BaseSelectionnee + ", connecté à l'adresse : " + Bdd1.ConnexionCourante;
 
-            pSociete = Bdd.Liste<Societe>()[0];
+            pSociete = Bdd1.Liste<Societe>()[0];
 
-            ListeObservable<Ligne_Poste> liste = Bdd.Liste<Ligne_Poste>();
+            ListeObservable<Ligne_Poste> liste = Bdd1.Liste<Ligne_Poste>();
 
             //Regex rgx = new Regex(@"\.0$");
 
@@ -94,7 +94,7 @@ namespace Gestion
             {
                 U = new Utilisateur(pSociete);
                 U.Prefix_Utilisateur = "A";
-                Bdd.Ajouter(U);
+                Bdd1.Ajouter(U);
             }
 
             pSociete.UtilisateurCourant = U;
@@ -122,7 +122,7 @@ namespace Gestion
             where T : ObjetGestion
         {
             List<String> NomCles = new List<String>();
-            List<PropertyInfo> pListeTri = Bdd.DicProprietes.ListeTri(typeof(T));
+            List<PropertyInfo> pListeTri = Bdd1.DicProprietes.ListeTri(typeof(T));
 
             foreach (PropertyInfo P in pListeTri)
             {
@@ -135,13 +135,13 @@ namespace Gestion
         public void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             MessageBoxResult R = MessageBoxResult.No;
-            if (Bdd.DoitEtreEnregistre)
+            if (Bdd1.DoitEtreEnregistre)
                 R = MessageBox.Show("Voulez vous enregistrer la base ?", "Info", MessageBoxButton.YesNo);
 
             if (R == MessageBoxResult.Yes)
-                Bdd.Enregistrer();
+                Bdd1.Enregistrer();
 
-            Bdd.Deconnecter();
+            Bdd1.Deconnecter();
 
             WindowParam.SauverParametre(this);
         }

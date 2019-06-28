@@ -7,7 +7,7 @@ namespace Gestion
     [ForcerAjout]
     public class Societe : ObjetGestion
     {
-        public Societe() { Bdd.Ajouter(this); }
+        public Societe() { Bdd1.Ajouter(this); }
 
         private String _Statut = "";
         [Propriete]
@@ -107,7 +107,7 @@ namespace Gestion
             get
             {
                 if (_ListeClient == null)
-                    _ListeClient = Bdd.Enfants<Client, Societe>(this);
+                    _ListeClient = Bdd1.Enfants<Client, Societe>(this);
 
                 return _ListeClient;
             }
@@ -119,7 +119,7 @@ namespace Gestion
             get
             {
                 if (_ListeFournisseur == null)
-                    _ListeFournisseur = Bdd.Enfants<Fournisseur, Societe>(this);
+                    _ListeFournisseur = Bdd1.Enfants<Fournisseur, Societe>(this);
 
                 return _ListeFournisseur;
             }
@@ -131,7 +131,7 @@ namespace Gestion
             get
             {
                 if (_ListeFamille == null)
-                    _ListeFamille = Bdd.Enfants<Famille, Societe>(this);
+                    _ListeFamille = Bdd1.Enfants<Famille, Societe>(this);
 
                 return _ListeFamille;
             }
@@ -143,7 +143,7 @@ namespace Gestion
             get
             {
                 if (_ListeUtilisateur == null)
-                    _ListeUtilisateur = Bdd.Enfants<Utilisateur, Societe>(this);
+                    _ListeUtilisateur = Bdd1.Enfants<Utilisateur, Societe>(this);
 
                 return _ListeUtilisateur;
             }
@@ -185,7 +185,7 @@ namespace Gestion
             else
                 _ListeAnalyseFacture.Clear();
 
-            Bdd.AnalyseSociete(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
+            Bdd1.AnalyseSociete(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
         }
     }
 }

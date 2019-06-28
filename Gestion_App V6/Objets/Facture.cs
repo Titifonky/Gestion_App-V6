@@ -24,7 +24,7 @@ namespace Gestion
         public Facture(Devis D)
         {
             Devis = D;
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
 
             int pNo = No;
             
@@ -88,7 +88,7 @@ namespace Gestion
             get
             {
                 if (_Devis == null)
-                    _Devis = Bdd.Parent<Devis, Facture>(this);
+                    _Devis = Bdd1.Parent<Devis, Facture>(this);
 
                 return _Devis;
             }
@@ -192,7 +192,7 @@ namespace Gestion
             get
             {
                 if (_ListeLigneFacture == null)
-                    _ListeLigneFacture = Bdd.Enfants<Ligne_Facture, Facture>(this);
+                    _ListeLigneFacture = Bdd1.Enfants<Ligne_Facture, Facture>(this);
 
                 return _ListeLigneFacture;
             }
@@ -234,7 +234,7 @@ namespace Gestion
             if (Devis.Client != null)
                 Devis.Client.ListeFacture.Remove(this);
 
-            Bdd.Supprimer(this);
+            Bdd1.Supprimer(this);
 
             if (Devis != null)
                 Devis.CalculerFacture();

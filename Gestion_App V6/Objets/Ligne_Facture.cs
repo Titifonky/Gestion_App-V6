@@ -25,7 +25,7 @@ namespace Gestion
             Facture = F;
             Poste = P;
 
-            Bdd.Ajouter(this);
+            Bdd1.Ajouter(this);
 
             No = P.No;
             
@@ -87,7 +87,7 @@ namespace Gestion
             get
             {
                 if (_Facture == null)
-                    _Facture = Bdd.Parent<Facture, Ligne_Facture>(this);
+                    _Facture = Bdd1.Parent<Facture, Ligne_Facture>(this);
 
                 return _Facture;
             }
@@ -106,7 +106,7 @@ namespace Gestion
             get
             {
                 if (_Poste == null)
-                    _Poste = Bdd.Parent<Poste, Ligne_Facture>(this);
+                    _Poste = Bdd1.Parent<Poste, Ligne_Facture>(this);
 
                 return _Poste;
             }
@@ -278,7 +278,7 @@ namespace Gestion
                 Poste.CalculerFacture();
             }
 
-            Bdd.Supprimer<Ligne_Facture>(this);
+            Bdd1.Supprimer<Ligne_Facture>(this);
             return true;
         }
     }

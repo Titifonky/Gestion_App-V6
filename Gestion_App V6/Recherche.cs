@@ -98,7 +98,7 @@ namespace Gestion
                         Chaine_Prop = Regex.Replace(Valeur, @"(^\[)(.*)(\])(.*)", "$2");
                     }
                     
-                    foreach (PropertyInfo Prop in Bdd.DicProprietes.ListePropriete(typeof(T)).Values)
+                    foreach (PropertyInfo Prop in Bdd1.DicProprietes.ListePropriete(typeof(T)).Values)
                     {
                         if (Regex.IsMatch(Prop.Name.ToLower(), Chaine_Prop.ToLower()))
                             if (Regex.IsMatch(Prop.GetValue(Obj).ToString().RemoveDiacritics(), Chaine_Recherche, RegexOptions.IgnoreCase))
