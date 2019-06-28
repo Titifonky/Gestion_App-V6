@@ -113,6 +113,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bdd2.cs" />
     <Compile Include="DicIntitules.cs" />
     <Compile Include="Objets\Adresse_Client.cs" />
     <Compile Include="Parametres.cs" />
@@ -217,7 +218,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bdd.cs" />
+    <Compile Include="Bdd1.cs" />
     <Compile Include="Objets\Attribut.cs" />
     <Compile Include="Objets\Client.cs" />
     <Compile Include="Objets\Devis.cs" />
