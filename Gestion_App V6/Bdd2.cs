@@ -18,7 +18,7 @@ namespace Gestion
 
     public static class Bdd2
     {
-        private static Version VersionCourante = new Version(1);
+        private static Version VersionCourante = new Version(10);
         private static MySqlConnection _ConnexionBase = null;
 
         private static String FichierMapping = "MappingDesTables.xml";
