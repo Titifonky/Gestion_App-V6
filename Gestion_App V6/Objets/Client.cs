@@ -250,7 +250,7 @@ namespace Gestion
             else
                 _ListeAnalyseFacture.Clear();
 
-            Bdd2.AnalyseClient(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
+            GenererAnalyse.Client(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
         }
 
         public override Boolean Supprimer()

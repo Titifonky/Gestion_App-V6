@@ -37,9 +37,7 @@ namespace Gestion
             Bdd2.Ajouter(this);
 
             Client = C;
-
-            // On rajoute le prefix après pour être sûr qu'il ne sera pas ecrasé par une valeur par defaut
-            Prefix_Utilisateur = Client.Societe.PrefixUtilisateurCourant;
+            Prefix_Utilisateur = C.Societe.PrefixUtilisateurCourant;
         }
 
         private String RefBase { get { return "D" + No; } }
@@ -95,50 +93,45 @@ namespace Gestion
 
         public DirectoryInfo CreerDossier(Boolean Forcer = false)
         {
+            DirectoryInfo pDossierIndice = null;
+
             try
             {
                 if (Client.Dossier == null)
                     Client.CreerDossier();
 
                 DirectoryInfo pDossierClient = Client.Dossier;
-                DirectoryInfo pDossier = Dossier;
-                if ((pDossierClient != null) && (pDossier == null))
+                String Chemin = Path.Combine(pDossierClient.FullName, NomDossierDevis);
+
+                if ((pDossierClient != null) && (Dossier == null))
                 {
-                    // Dossier de base
-                    String Chemin = Path.Combine(pDossierClient.FullName, NomDossierDevis);
                     DirectoryInfo pDossierDevis = Directory.CreateDirectory(Chemin);
 
                     // Dossier de l'indice
                     Chemin = Path.Combine(pDossierDevis.FullName, NomDossierIndice);
-                    DirectoryInfo pDossierIndice = Directory.CreateDirectory(Chemin);
-                    CreerStructureDossier();
-                    return pDossierIndice;
+                    pDossierIndice = Directory.CreateDirectory(Chemin);
                 }
                 
-                if (Forcer && (pDossier != null))
+                if (Forcer && (Dossier != null))
                 {
-                    // Dossier de base
-                    String Chemin = Path.Combine(pDossierClient.FullName, NomDossierDevis);
+                    if (Dossier.FullName != Chemin)
+                        Dossier.MoveTo(Chemin);
 
-                    if (pDossier.FullName != Chemin)
-                        pDossier.MoveTo(Chemin);
-
-
-                    DirectoryInfo pDossierIndice = DossierIndice;
-                    if (pDossierIndice == null)
-                    {
-                        // Dossier de l'indice
-                        Chemin = Path.Combine(Dossier.FullName, NomDossierIndice);
-                        pDossierIndice = Directory.CreateDirectory(Chemin);
-                    }
-
-                    CreerStructureDossier();
-                    return pDossierIndice;
+                    pDossierIndice = DossierIndice;
                 }
+
+                if (pDossierIndice == null)
+                {
+                    // Dossier de l'indice
+                    Chemin = Path.Combine(Dossier.FullName, NomDossierIndice);
+                    pDossierIndice = Directory.CreateDirectory(Chemin);
+                }
+
+                CreerStructureDossier();
             }
             catch { }
 
-            return null;
+            return pDossierIndice;
         }
 
         public DirectoryInfo Dossier
@@ -240,7 +233,6 @@ namespace Gestion
             set
             {
                 Client OldClient = _Client;
-
 
                 Set(ref _Client, value, this);
 
@@ -474,7 +466,7 @@ namespace Gestion
                     foreach (String Filtre in Filtres)
                     {
                         String F = Fichiers.Find(n => { return Regex.IsMatch(Path.GetFileName(n), Filtre, RegexOptions.IgnoreCase); });
-                        if (F != default(String))
+                        if (F != default)
                         {
                             Bitmap thumbnail = WindowsThumbnailProvider.GetThumbnail(F, 256, 256, ThumbnailOptions.None);
                             BitmapImage img = WindowsThumbnailProvider.ToBitmapImage(WindowsThumbnailProvider.AutoCrop(thumbnail));
@@ -589,10 +581,10 @@ namespace Gestion
         {
             if (!EstCharge) return;
 
-            Func<Object, String> AffNb = delegate (Object Obj)
+            string AffNb(Object Obj)
             {
                 return Math.Round(((Double)Convert.ChangeType(Obj, typeof(Double)))).ToString();
-            };
+            }
 
             Func<Object, String, String> AffNbU = delegate (Object Obj, String Unite)
             {
@@ -788,7 +780,7 @@ namespace Gestion
 
         public override void Copier<T>(T ObjetBase)
         {
-            Devis DevisBase = ObjetBase as Devis;
+            var DevisBase = ObjetBase as Devis;
             if ((!EstCharge) || (DevisBase == null) || (!DevisBase.EstCharge)) return;
 
             CopierBase(DevisBase);

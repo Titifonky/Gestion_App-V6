@@ -20,7 +20,7 @@ namespace Gestion
             Bdd2.Ajouter(this);
 
             Devis = D;
-            
+
             // On initialise le fournisseur
             ListeObservable<Fournisseur> F = Devis.Client.Societe.ListeFournisseur;
             if((F != null) && (F.Count > 0))

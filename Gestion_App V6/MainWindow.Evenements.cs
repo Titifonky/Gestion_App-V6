@@ -1030,8 +1030,7 @@ namespace Gestion
             where T : ObjetGestion, new()
             where U : ObjetGestion
         {
-            Type classType = typeof(T);
-            ConstructorInfo classConstructor = classType.GetConstructor(new Type[] { typeof(U) });
+            ConstructorInfo classConstructor = typeof(T).GetConstructor(new Type[] { typeof(U) });
             return (T)classConstructor.Invoke(new object[] { Parent });
         }
 

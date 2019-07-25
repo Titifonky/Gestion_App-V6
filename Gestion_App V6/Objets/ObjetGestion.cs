@@ -151,9 +151,10 @@ namespace Gestion
             if (EqualityComparer<U>.Default.Equals(field, value)) return false;
 
             field = value;
+            MajRef();
             OnPropertyChanged(propertyName);
             if (EstSvgDansLaBase)
-                Bdd2.Maj(Objet, T, propertyName);
+                Bdd2.Maj(Objet, T);
             return true;
         }
 
@@ -167,9 +168,10 @@ namespace Gestion
             if (ForcerUpdate || !EqualityComparer<U>.Default.Equals(field, value))
             {
                 field = value;
+                MajRef();
                 OnPropertyChanged(propertyName);
                 if (EstSvgDansLaBase)
-                    Bdd2.Maj(Objet, T, propertyName);
+                    Bdd2.Maj(Objet, T);
             }
 
             return test;
@@ -178,6 +180,7 @@ namespace Gestion
         protected bool SetListe<U>(ref U field, U value, [CallerMemberName]string propertyName = "")
         {
             field = value;
+            MajRef();
             OnPropertyChanged(propertyName);
             return true;
         }
@@ -264,7 +267,7 @@ namespace Gestion
                 {
                     foreach (var item in this)
                     {
-                        var notifyItem = item as INotifyPropertyChanged;
+                        INotifyPropertyChanged notifyItem = item as INotifyPropertyChanged;
                         if (notifyItem != null)
                             notifyItem.PropertyChanged += ItemPropertyChanged;
                     }
@@ -273,8 +276,7 @@ namespace Gestion
                 {
                     foreach (var item in this)
                     {
-                        var notifyItem = item as INotifyPropertyChanged;
-                        if (notifyItem != null)
+                        if (item is INotifyPropertyChanged notifyItem)
                             notifyItem.PropertyChanged -= ItemPropertyChanged;
                     }
                 }
@@ -433,7 +435,7 @@ namespace Gestion
             {
                 foreach (var item in e.NewItems)
                 {
-                    var notifyItem = item as INotifyPropertyChanged;
+                    INotifyPropertyChanged notifyItem = item as INotifyPropertyChanged;
                     if (notifyItem != null)
                         notifyItem.PropertyChanged += ItemPropertyChanged;
                 }
@@ -442,7 +444,7 @@ namespace Gestion
             {
                 foreach (var item in e.OldItems)
                 {
-                    var notifyItem = item as INotifyPropertyChanged;
+                    INotifyPropertyChanged notifyItem = item as INotifyPropertyChanged;
                     if (notifyItem != null)
                         notifyItem.PropertyChanged -= ItemPropertyChanged;
                 }

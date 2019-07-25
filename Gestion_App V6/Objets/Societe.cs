@@ -193,7 +193,7 @@ namespace Gestion
             else
                 _ListeAnalyseFacture.Clear();
 
-            Bdd2.AnalyseSociete(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
+            GenererAnalyse.Societe(ref _ListeAnalyseDevis, ref _ListeAnalyseFacture, Id);
         }
     }
 }
