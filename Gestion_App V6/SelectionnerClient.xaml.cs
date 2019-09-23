@@ -73,7 +73,7 @@ namespace Gestion
             get
             { return _Objet; }
 
-            private set
+            set
             {
                 _Objet = value;
                 OnPropertyChanged();
