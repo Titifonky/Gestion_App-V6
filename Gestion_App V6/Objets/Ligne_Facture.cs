@@ -249,10 +249,10 @@ namespace Gestion
                 case CalculLigne_Facture_e.cQuantite:
                     break;
                 case CalculLigne_Facture_e.cPourcentageUnitaire:
-                    Ht = Ht * 0.01;
+                    Ht = ArrondiEuro(Ht * 0.01);
                     break;
                 case CalculLigne_Facture_e.cPourcentageTotal:
-                    Ht = Ht * 0.01;
+                    Ht = ArrondiEuro(Ht * 0.01);
                     break;
                 default:
                     break;
