@@ -211,7 +211,7 @@ namespace Gestion
                 pDebours_Unitaire += Ligne.Debours_Unitaire;
             }
 
-            Prix_Unitaire = Outils.Plafond(pPrix_Unitaire, Arrondi);
+            Prix_Unitaire = ArrondiEuro(Outils.Plafond(pPrix_Unitaire, Arrondi));
             Marge_Unitaire = ArrondiEuro(Prix_Unitaire - pDebours_Unitaire);
 
             Prix_Ht = Prix_Unitaire * Qte;
