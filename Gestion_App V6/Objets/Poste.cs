@@ -217,7 +217,10 @@ namespace Gestion
             Prix_Ht = Prix_Unitaire * Qte;
             Marge = Marge_Unitaire * Qte;
             //Marge_Pct = ArrondiPct((Marge / Prix_Ht) * 100);
-            Marge_Pct = ArrondiPct(((Prix_Ht / (Prix_Ht - Marge)) - 1) * 100);
+            if (Marge == Prix_Ht)
+                Marge_Pct = 100;
+            else
+                Marge_Pct = ArrondiPct(((Prix_Ht / (Prix_Ht - Marge)) - 1) * 100);
 
             CalculerFacture(false);
 

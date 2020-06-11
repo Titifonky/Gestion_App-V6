@@ -280,6 +280,7 @@ namespace Gestion
                 Famille = Poste.Devis.Client.Societe.ListeFamille[0];
 
             Debours_Unitaire = (Famille.Code != CodeFamille_e.cMarge).BoolToInt() * Debours_Unitaire;
+            Debours = (Famille.Code != CodeFamille_e.cMarge).BoolToInt() * Debours;
 
             Marge = ArrondiEuro(Prix_Ht - Debours_Unitaire);
             
