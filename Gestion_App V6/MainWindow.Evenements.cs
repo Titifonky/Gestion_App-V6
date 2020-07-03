@@ -237,12 +237,10 @@ namespace Gestion
 
         private void FermerOnglet(Object DataContext)
         {
-            Client C = DataContext as Client;
-            if (C != null)
+            if (DataContext is Client C)
             { C.CreerDossier(true); return; }
 
-            Devis D = DataContext as Devis;
-            if (D != null)
+            if (DataContext is Devis D)
             { D.CreerDossier(false); return; }
         }
 

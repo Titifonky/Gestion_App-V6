@@ -220,7 +220,7 @@ namespace Gestion
 
             Prix_Ttc = Math.Round(Prix_Ht * ((Devis.Tva_Pct + 100) / 100), DEFAULT_ARRONDI_EURO, MidpointRounding.ToEven);
 
-            Tva = Prix_Ttc - Prix_Ht;
+            Tva = Math.Round(Prix_Ttc - Prix_Ht, DEFAULT_ARRONDI_EURO);
 
             if (Dependance)
                 Devis.CalculerFacture();

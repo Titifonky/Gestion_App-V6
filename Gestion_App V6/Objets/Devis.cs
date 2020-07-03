@@ -78,16 +78,35 @@ namespace Gestion
             if (pDossierIndice == null) return;
 
             String Chemin = Path.Combine(pDossierIndice.FullName, Properties.Settings.Default.NomFichierInfos);
-            if (File.Exists(Chemin))
+            
+            String Texte = "";
+            Texte += "Client : " + Client.Intitule.Flat().Trim() + Environment.NewLine;
+            Texte += "Adresse : " + (Adresse_Client.Adresse + " - " + Adresse_Client.Cp + " " + Adresse_Client.Ville).Trim() + Environment.NewLine;
+            Texte += "NoCommande : " + Ref + Environment.NewLine;
+            Texte += "NoClient : " + Client.Ref;
+
+            if (!File.Exists(Chemin))
+            {
+                Texte += Environment.NewLine + "Dessinateur : " + Client.Societe.UtilisateurCourant.Intitule;
+
+                using (StreamWriter sw = new StreamWriter(Chemin, false, Encoding.GetEncoding(1252)))
+                    sw.Write(Texte);
+            }
+            else
+            {
+                String Data = "";
+                using (StreamReader sr = new StreamReader(Chemin, Encoding.GetEncoding(1252)))
+                {
+                    String Ligne = "";
+                    Ligne = sr.ReadLine(); Ligne = sr.ReadLine(); Ligne = sr.ReadLine(); Ligne = sr.ReadLine();
+                    while ((Ligne = sr.ReadLine()) != null)
+                        Data += Environment.NewLine + Ligne;
+                }
+
                 File.Delete(Chemin);
 
-            using (StreamWriter sw = new StreamWriter(Chemin, false, Encoding.GetEncoding(1252)))
-            {
-                sw.WriteLine("Client : " + Client.Intitule.Flat().Trim());
-                sw.WriteLine("Adresse : " + (Adresse_Client.Adresse + " - " + Adresse_Client.Cp + " " + Adresse_Client.Ville).Trim());
-                sw.WriteLine("NoCommande : " + Ref);
-                sw.WriteLine("NoClient : " + Client.Ref);
-                sw.WriteLine("Dessinateur : " + Client.Societe.UtilisateurCourant.Intitule);
+                using (StreamWriter sw = new StreamWriter(Chemin, false, Encoding.GetEncoding(1252)))
+                    sw.Write(Texte + Data);
             }
         }
 
