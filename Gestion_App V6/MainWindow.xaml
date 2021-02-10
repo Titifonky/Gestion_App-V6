@@ -139,7 +139,7 @@
                               >
                             <ListView.Resources>
                                 <Style TargetType="local:Texte">
-                                    <Setter Property="TextWrapping" Value="NoWrap" />
+                                    <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                 </Style>
                             </ListView.Resources>
                             <ListView.ContextMenu>
@@ -256,7 +256,7 @@
                                                                               >
                                                                     <ListView.Resources>
                                                                         <Style TargetType="local:Texte">
-                                                                            <Setter Property="TextWrapping" Value="NoWrap" />
+                                                                            <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                                                         </Style>
                                                                         <Style TargetType="GridViewColumnHeader">
                                                                             <Setter Property="Visibility" Value="Visible" />
@@ -375,7 +375,7 @@
                                                                               >
                                                                     <ListView.Resources>
                                                                         <Style TargetType="local:Texte">
-                                                                            <Setter Property="TextWrapping" Value="NoWrap" />
+                                                                            <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                                                         </Style>
                                                                         <Style TargetType="GridViewColumnHeader">
                                                                             <Setter Property="Visibility" Value="Visible" />
@@ -555,7 +555,7 @@
                                                                               >
                                                                     <ListView.Resources>
                                                                         <Style TargetType="local:Texte">
-                                                                            <Setter Property="TextWrapping" Value="NoWrap" />
+                                                                            <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                                                         </Style>
                                                                         <Style TargetType="GridViewColumnHeader">
                                                                             <Setter Property="Visibility" Value="Visible" />
@@ -676,7 +676,7 @@
                                                                               >
                                                                     <ListView.Resources>
                                                                         <Style TargetType="local:Texte">
-                                                                            <Setter Property="TextWrapping" Value="NoWrap" />
+                                                                            <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                                                         </Style>
                                                                         <Style TargetType="GridViewColumnHeader">
                                                                             <Setter Property="Visibility" Value="Visible" />
@@ -744,7 +744,7 @@
                               >
                         <ListView.Resources>
                             <Style TargetType="local:Texte">
-                                <Setter Property="TextWrapping" Value="NoWrap" />
+                                <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                             </Style>
                         </ListView.Resources>
                         <ListView.ContextMenu>
@@ -1179,7 +1179,7 @@
                                     </ListView.ItemContainerStyle>
                                     <ListView.Resources>
                                         <Style TargetType="local:Texte">
-                                            <Setter Property="TextWrapping" Value="NoWrap" />
+                                            <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                             <EventSetter Event="KeyUp" Handler="Control_KeyUp"/>
                                         </Style>
                                         <Style TargetType="local:ListeEnum">
@@ -1640,7 +1640,7 @@
                                     <Grid.Resources>
                                         <Style TargetType="{x:Type local:Texte}">
                                             <Setter Property="HorizontalAlignment" Value="Right"/>
-                                            <Setter Property="TextWrapping" Value="NoWrap"/>
+                                            <!--<Setter Property="TextWrapping" Value="NoWrap"/>-->
                                             <Setter Property="FontWeight" Value="Bold"/>
                                         </Style>
                                     </Grid.Resources>
@@ -1682,7 +1682,7 @@
                                     <Grid.Resources>
                                         <Style TargetType="{x:Type local:Texte}">
                                             <Setter Property="HorizontalAlignment" Value="Right"/>
-                                            <Setter Property="TextWrapping" Value="NoWrap"/>
+                                            <!--<Setter Property="TextWrapping" Value="NoWrap"/>-->
                                             <Setter Property="FontWeight" Value="Bold"/>
                                         </Style>
                                     </Grid.Resources>
@@ -1850,7 +1850,7 @@
                                                           >
                                                     <ListView.Resources>
                                                         <Style TargetType="local:Texte">
-                                                            <Setter Property="TextWrapping" Value="NoWrap" />
+                                                            <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                                             <EventSetter Event="KeyUp" Handler="Control_KeyUp"/>
                                                         </Style>
                                                         <Style TargetType="local:ListeEnum">
@@ -1977,7 +1977,7 @@
                                                           >
                                                         <ListView.Resources>
                                                             <Style TargetType="local:Texte">
-                                                                <Setter Property="TextWrapping" Value="NoWrap" />
+                                                                <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                                             </Style>
                                                         </ListView.Resources>
 
@@ -2026,7 +2026,7 @@
                                                           >
                                                     <ListView.Resources>
                                                         <Style TargetType="local:Texte">
-                                                            <Setter Property="TextWrapping" Value="NoWrap" />
+                                                            <!--<Setter Property="TextWrapping" Value="NoWrap" />-->
                                                         </Style>
                                                     </ListView.Resources>
 
@@ -2301,8 +2301,8 @@
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <local:Texte Grid.Column="0" Valeur="{Binding Client.Ref}"/>
-                                        <local:Texte Grid.Column="1" Margin="4,0,0,0" Valeur="{Binding Client.Intitule}"/>
+                                        <local:Texte Grid.Column="0" Valeur="{Binding Path=Client.Ref}"/>
+                                        <local:Texte Grid.Column="1" Margin="4,0,0,0" Valeur="{Binding Path=Client.Intitule}"/>
                                     </Grid>
                                 </Border>
                                 <Border Grid.Row="1" Padding="3,2,2,2" Visibility="{Binding ElementName=xAfficherToutLesDevis,

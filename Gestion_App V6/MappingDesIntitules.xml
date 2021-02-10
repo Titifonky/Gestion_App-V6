@@ -83,7 +83,7 @@ Devis valable deux mois"/>
       <Propriete name="Ref"/>
       <Propriete name="Indice"/>
       <Propriete name="Devis" intitule="Devis"/>
-      <Propriete name="defaut" unite="1"/>
+      <Propriete name="Statut" defaut="1"/>
       <Propriete name="Conditions" defaut="Paiement à 45 jours date de facturation"/>
       <Propriete name="Date"/>
       <Propriete name="Imprimer_Commentaires" intitule="Commentaires" info="Imprimer les commentaires"  defaut="false"/>

@@ -72,7 +72,7 @@ namespace Gestion
 
         public static readonly DependencyProperty TextWrappingDP =
             DependencyProperty.Register("TextWrapping", typeof(TextWrapping),
-              typeof(Texte), new FrameworkPropertyMetadata(TextWrapping.WrapWithOverflow));
+              typeof(Texte), new FrameworkPropertyMetadata(TextWrapping.WrapWithOverflow, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public TextAlignment TextAlignment
         {

@@ -98,7 +98,7 @@ namespace Gestion
                 using (StreamReader sr = new StreamReader(Chemin, Encoding.GetEncoding(1252)))
                 {
                     String Ligne = "";
-                    Ligne = sr.ReadLine(); Ligne = sr.ReadLine(); Ligne = sr.ReadLine(); Ligne = sr.ReadLine();
+                    Ligne = sr.ReadLine(); Ligne = sr.ReadLine(); Ligne = sr.ReadLine(); Ligne = sr.ReadLine(); Ligne = sr.ReadLine();
                     while ((Ligne = sr.ReadLine()) != null)
                         Data += Environment.NewLine + Ligne;
                 }
